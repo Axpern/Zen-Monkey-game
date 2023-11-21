@@ -1,0 +1,278 @@
+
+
+.iconContainer {
+    display: flex;
+    justify-content: space-between;
+    /* creates distance between icons */
+    margin:30px;
+}
+
+.icon {
+    display: block;
+    max-width: 10%; 
+    /* max width adjusts the size of icon */
+}
+
+.playerImg {
+    max-width: 100%;
+    max-height: 100%;
+    /* fills the container .icon */
+}
+
+
+/* sets up Dpad for all */
+.Dpad {
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    grid-template-rows: 40% 40% 40% ;
+    max-width: 20%;
+    text-align: center;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+    align-items: center;
+    position: relative;
+    /* solves the issue of dpad not getting clicked cause overlayed by others */
+    z-index: 10;     
+}
+
+.Dpad.Ai {
+    margin: 0 auto 0 auto;
+    position: relative;
+    top: -100px;
+}
+
+.Dpad.Ai > .pad > .arrowImg {
+    pointer-events:none
+}
+
+.pad {
+    border-radius: 5px;
+    
+}
+
+.pad.Up {
+    grid-column-start: 2;
+    grid-row-start: 1;
+
+}
+
+.pad.Right {
+    grid-column-start: 3;
+    grid-row-start: 2;
+}
+
+.pad.Down {
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+
+.pad.Left {
+    grid-column-start: 1;
+    grid-row-start: 2;
+}
+
+.Middle {
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+
+/* pad photos and design */
+
+.arrowImg{
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.arrowImg.Up {
+    transform: rotate(270deg);
+    max-width: 80%;
+    max-height: 80%;
+    filter: invert(14%) sepia(36%) saturate(3301%) hue-rotate(338deg) brightness(92%) contrast(71%);
+    /* color to be changed to after getting clicked */
+    /* filter: invert(13%) sepia(84%) saturate(6748%) hue-rotate(359deg) brightness(111%) contrast(112%); */
+}
+
+.arrowImg.Right {
+    max-width: 80%;
+    max-height: 80%;
+    filter: invert(33%) sepia(20%) saturate(1313%) hue-rotate(21deg) brightness(95%) contrast(81%);
+    /* filter: invert(75%) sepia(67%) saturate(797%) hue-rotate(10deg) brightness(111%) contrast(107%); */
+}
+
+.arrowImg.Down {
+    transform: rotate(90deg);
+    max-width: 80%;
+    max-height: 80%;
+    filter: invert(37%) sepia(12%) saturate(1532%) hue-rotate(72deg) brightness(91%) contrast(89%);
+    /* filter: invert(79%) sepia(51%) saturate(598%) hue-rotate(60deg) brightness(102%) contrast(98%); */
+}
+
+.arrowImg.Left {
+    transform: rotate(180deg);
+    max-width: 80%;
+    max-height: 80%;
+    filter: invert(27%) sepia(35%) saturate(839%) hue-rotate(201deg) brightness(86%) contrast(97%);
+    /* filter: invert(8%) sepia(100%) saturate(7481%) hue-rotate(249deg) brightness(101%) contrast(142%); */
+}
+
+.arrowImg.Middle {
+    max-width: 80%;
+    max-height: 80%;
+    /* IMPORTANT: remove this when debugging */
+    display: none;
+}
+
+
+
+
+/* gif reactions */
+.playerReactions {
+    display: flex;
+    justify-content: space-between;
+    margin:30px;
+    padding: 0 20% 0 20%;
+    position: relative;
+    top: -250px;
+    /* left: 80px; */
+}
+
+@media (max-width:800px) {
+    .playerReactions {
+        top: -200px;
+        padding: 0 17% 0 17%;
+    }
+}
+
+.reaction {
+    width: 15%;
+    height: 15%;
+}
+
+
+#giphy-results {
+    width: 100%;
+    height: 100%;
+}
+
+#giphy-results img {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+/* The player's dpad */
+
+ .playerDpads {
+    display: flex;
+    justify-content: space-between;
+    /* margin:30px;  */
+    /* padding: 0 200px 0 200px; */
+    position: relative;
+    top: -200px;
+    /* height: 130px;
+    width: 900px; */
+} 
+
+.Dpad.player1 {
+    left: 15%;
+    position: relative;
+}
+
+.Dpad.player2 {
+    left: -15%;
+    position: relative;
+}
+
+
+/* the scoring range and pause/start */
+.bottomInputs {
+    display: grid;
+    padding: 0 30% 0 30%;
+    text-align: center;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+    align-items: center;     
+    position: relative; 
+    top: -450px;
+    grid-template-rows: 150px 30px;
+    /* width: 100%;
+    height: 100%;
+    grid-template-rows: 200px 100px; */
+}
+@media (max-width:900px) {
+    .bottomInputs  {
+        top: -400px;
+        
+    }
+}
+@media (max-width:700px) {
+    .bottomInputs  {
+        top: -350px;
+        
+    }
+}
+
+
+
+input[type=range][orient=vertical] { 
+    writing-mode: vertical;
+    transform: rotate(270deg);
+    
+}
+
+
+
+
+.pause {
+
+}
+
+
+/* tally of player score */
+.playerScores {
+    display: flex;
+    /* grid-template-columns: 1fr 1fr; */
+    justify-content: space-between;
+    padding: 0 8% 0 8%;
+    position: relative;
+    top:-200px;
+    margin: 10px;
+}
+
+
+.details.player1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: center;
+}
+
+.details.player2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: center;
+} 
+
+
+/* if statements in js */
+
+.on.Up {
+    filter: invert(13%) sepia(84%) saturate(6748%) hue-rotate(359deg) brightness(111%) contrast(112%);
+}
+
+.on.Right {
+    filter: invert(75%) sepia(67%) saturate(797%) hue-rotate(10deg) brightness(111%) contrast(107%);
+}
+
+.on.Down {
+    filter: invert(79%) sepia(51%) saturate(598%) hue-rotate(60deg) brightness(102%) contrast(98%);
+}
+
+.on.Left {
+    filter: invert(8%) sepia(100%) saturate(7481%) hue-rotate(249deg) brightness(101%) contrast(142%);
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+
+  <meta charset="UTF-8">
+  <title>Who becomes Zen?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="normalize.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+ 
+
+</head>
+
+<body>
+
+    <header> 
+        <!-- icons in a container -->
+        <section class="iconContainer">
+        
+            <div class="icon player1">
+                <img src="imgs/download.png" class="playerImg"/>
+            </div>
+
+            <div class="icon player2">
+                <img src="imgs/download (1).png" class="playerImg"/>
+            </div>
+        </section>
+
+    </header>
+
+    <main>
+
+        <section class="aiCommand">
+            <!-- the buttons that Ai will randomnly activate and players must follow -->
+            <div class="Dpad Ai">
+                <div class="pad Up"><img src="imgs/arrow.png" class="arrowImg Up" id="aiU"/></div>
+                <div class="pad Right"><img src="imgs/arrow.png" class="arrowImg Right" id="aiR"/></div>
+                <div class="pad Down"><img src="imgs/arrow.png" class="arrowImg Down" id="aiD"/></div>
+                <div class="pad Left"><img src="imgs/arrow.png" class="arrowImg Left" id="aiL"/></div>
+                <div class="Middle"><img src="imgs/kisspng-circle-shape-computer-icons-5aec596b087b34.9780264515254388270348.jpg" class="arrowImg Middle" id="aiM"/></div>
+            </div>  
+
+        </section>
+
+        <section class="playerReactions">
+            <!-- gifs that will play depending on the players dis/advantageous situation -->
+            <div class="reaction player1">
+                  <div id="giphy-results"></div>
+            </div>
+            <div class="reaction player2">
+                  <div id="giphy-results"></div>
+            </div>
+
+        </section>
+
+        <section class="playerDpads">
+            <!-- Both players buttons that must match to the ai, quicker matching wins -->
+            <div class="Dpad player1">
+                <div class="pad Up"><img src="imgs/arrow.png" class="arrowImg Up" id="player1U"/></div>
+                <div class="pad Right"><img src="imgs/arrow.png" class="arrowImg Right" id="player1R"/></div>
+                <div class="pad Down"><img src="imgs/arrow.png" class="arrowImg Down" id="player1D"/></div>
+                <div class="pad Left"><img src="imgs/arrow.png" class="arrowImg Left" id="player1L"/></div>
+                <div class="Middle"><img src="imgs/kisspng-circle-shape-computer-icons-5aec596b087b34.9780264515254388270348.jpg" class="arrowImg Middle" id="player1M"/></div>
+            </div>  
+
+            <div class="Dpad player2">
+                <div class="pad Up"><img src="imgs/arrow.png" class="arrowImg Up" id="player2U"/></div>
+                <div class="pad Right"><img src="imgs/arrow.png" class="arrowImg Right" id="player2R"/></div>
+                <div class="pad Down"><img src="imgs/arrow.png" class="arrowImg Down" id="player2D"/></div>
+                <div class="pad Left"><img src="imgs/arrow.png" class="arrowImg Left" id="player2L"/></div>
+                <div class="Middle"><img src="imgs/kisspng-circle-shape-computer-icons-5aec596b087b34.9780264515254388270348.jpg" class="arrowImg Middle" id="player2M"/></div>
+            </div>
+
+        </section>
+        <section class="playerScores">
+            <!-- keeps a tally of score and winrate of each player -->
+            <div class="details player1">
+
+                <div class="score player1">
+                    <p class="labelScore">Score</p>
+                    <p class="NumberScore">32,000</p>
+                </div>
+
+                <div class="win player1">
+                    <p class="labelWin">Win</p>
+                    <p class="NumberWin">3</p>
+                </div>
+
+            </div>
+            <div class="details player2">
+
+                <div class="win player2">
+                    <p class="labelWin">Win</p>
+                    <p class="NumberWin">1</p>
+                </div>
+
+                <div class="score player2">
+                    <p class="labelScore">Score</p>
+                    <p class="NumberScore">86,000</p>
+                </div>
+
+            </div>
+        </section>
+        <section class="bottomInputs">
+            <!-- shows players who is winning and progress. Also can press the pause button -->
+            <div class="SlidingScore">
+                <input type="range" min="1" max="100" value="50" class="slider" id="myRange" orient="vertical"> 
+            </div>
+
+            <div class="pause">
+                <button class="mainMenu" id="pauseBtn">pause</button>
+            </div>
+
+        </section>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script  src="./script.js"></script>
+    <script  src="./fortesting.js"></script>
+
+</body>
+
+</html>
