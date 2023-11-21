@@ -1,7 +1,4 @@
 
-
-
-
 //dpad of ai and players by using array of identity since its unique and therefore not confused
 const aiDpad = ["aiU", "aiR", "aiD", "aiL"];
 const player1Dpad = ["player1U", "player1R", "player1D", "player1L"];
@@ -36,7 +33,24 @@ function untoItself() {
     randomFour = Math.floor(Math.random()*4);
     // the number will be used to get a value from an index
     aiChoice = document.getElementById("" + aiDpad[randomFour]);
-    //T1 start time
+    //ai to punish if player didnt hit anything
+    if (aiCache1.length > player1Cache.length) {
+        aiCache1.shift();
+        //balance needed
+        //T5 end time
+        player1Score -= 800
+        console.log(player1Score)
+    }
+
+    if (aiCache2.length > player2Cache.length) {
+        aiCache2.shift();
+        //balance needed
+        //T5 end time
+        player2Score -= 800
+        console.log(player2Score)
+    }
+
+    //T1 start time, T6 restart process
     startTime = performance.now();
     // on class will be added 
     gettingClicked(aiChoice);
@@ -171,7 +185,6 @@ if (event.key === "ArrowUp") {
 
 function gettingClicked(TBC) {
     TBC.classList.add("on");
-    console.log(TBC);
     // the "effect" is removed after a short while"
     setTimeout(function(){bringPure(TBC)}, 500)
 // also, the functions records the ID what has been clicked
@@ -187,29 +200,68 @@ function bringPure(imgPads) {
 function scoringSystem1(player1Pressed, time) {
     //if player1 pressed and Ai didnt
     if (player1Cache.length > aiCache1.length) {
+        player1Cache.shift();
         //needs change for balance
         player1Score -= 6
-        player1Cache.shift();
+        console.log(player1Score)
     }
+
     else {
-        for (i=0; i < player1Cache.length;i++) {
-            //if player1 and ai press and same value
-            if (player1Cache[i] === aiCache1[i]) {
-                player1Cache.shift();
-                aiCache1.shift();
-                //balance needed
-                player1Score += 9;
-            } 
-            //if player1 and ai press but not same value
-            else {
-                player1Cache.shift()
-                aiCache1.shift()
-                //balance needed
-                player1Score -=6
-            }
+        //if player1 and ai press and same value
+        if (player1Cache[0] === aiCache1[0]) {
+            player1Cache.shift();
+            aiCache1.shift();
+            //balance needed
+            //T2 end time use
+            console.log("hello")
+            player1Score += (Math.ceil((time - startTime)^(-1))) * 100;
+            console.log(player1Score)
+        } 
+        //if player1 and ai press but not same value
+        else {
+            player1Cache.shift()
+            aiCache1.shift()
+            //balance needed
+            //T2 end time use
+            player1Score -= 50;
+            console.log(player1Score)
+        
         }
     }
 }
+
+
+function scoringSystem2(player2Pressed, time) {
+    //if player2 pressed and Ai didnt
+    if (player2Cache.length > aiCache2.length) {
+        player2Cache.shift();
+        //needs change for balance
+        player2Score -= 6
+        console.log(player2Score)
+    }
+    else {
+        //if player2 and ai press and same value
+        if (player2Cache[0] === aiCache2[0]) {
+            player2Cache.shift();
+            aiCache2.shift();
+            //balance needed
+            //T2 end time use
+            console.log("hello2")
+            player2Score += (Math.ceil((time - startTime)^(-1))) * 100;
+            console.log(player2Score)
+        } 
+        //if player2 and ai press but not same value
+        else {
+            player2Cache.shift()
+            aiCache2.shift()
+            //balance needed
+            //T2 end time use
+            player2Score -= 50;
+            console.log(player2Score)
+        }
+    }
+}
+
 
 
 //T1 I want a way to start the time the moment the ai hits (key action) a key and 
