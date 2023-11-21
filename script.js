@@ -4,15 +4,27 @@ const aiDpad = ["aiU", "aiR", "aiD", "aiL"];
 const player1Dpad = ["player1U", "player1R", "player1D", "player1L"];
 const player2Dpad = ["player2U", "player2R", "player2D", "player2L"];
 
-let aiCache = [];
-let aiCache1 = [];
-let aiCache2 = [];
+let aiMem = [];
+let aiMem1 = [];
+let aiMem2 = [];
 
-let player1Cache = [];
-let player2Cache =[];
+let player1Mem = [];
+let player2Mem =[];
 
 let player1Score = 0;
 let player2Score = 0;
+
+let aiCache = -1
+let aiFilled = false;
+
+let player1Cache = -1
+let player1Filled = false;
+let aiFilled1 = false;
+
+let player2Cache = -1
+let player2Filled = false;
+let aiFilled2 = false;
+
 
 let randomFour = 0;
 let aiChoice = "";
@@ -34,30 +46,35 @@ function untoItself() {
     // the number will be used to get a value from an index
     aiChoice = document.getElementById("" + aiDpad[randomFour]);
     //ai to punish if player didnt hit anything
-    if (aiCache1.length > player1Cache.length) {
-        aiCache1.shift();
+    if (aiFilled1 === true && player1Filled === false) {
+        aiFilled1 = false;
         //balance needed
         //T5 end time
-        player1Score -= 800
+        player1Score -= 80
         console.log(player1Score)
     }
 
-    if (aiCache2.length > player2Cache.length) {
-        aiCache2.shift();
+    if (aiFilled2 === true && player2Filled === false) {
+        aiFilled2 = false;
         //balance needed
         //T5 end time
-        player2Score -= 800
+        player1Score -= 80
         console.log(player2Score)
     }
 
     //T1 start time, T6 restart process
     startTime = performance.now();
+
+    aiCache = randomFour;
+    aiFilled = true;
+
+    aiCache1 = aiCache;
+    aiFilled1 = aiFilled;
+    aiCache2 = aiCache;
+    aiFilled2 = aiFilled
+
     // on class will be added 
     gettingClicked(aiChoice);
-    //choice appeneded in memory
-    aiCache.push(randomFour);
-    aiCache1.push(randomFour);
-    aiCache2.push(randomFour);
      // function will occur unto itself
      setTimeout(function(){untoItself()},3000)
 }
@@ -100,7 +117,8 @@ event.preventDefault()
 
         player1Pressed = 0;
         endTime = performance.now()
-        player1Cache.push(player1Pressed);
+        player1Cache = player1Pressed;
+        player1Filled = true;
         scoringSystem1(player1Pressed,endTime);
         player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
         gettingClicked(player1Choice);
@@ -109,7 +127,10 @@ event.preventDefault()
     } else if (event.key === "d" || event.key === "D") {
 
         player1Pressed = 1;
-        player1Cache.push(player1Pressed);
+        endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
         player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
         gettingClicked(player1Choice);
 
@@ -117,15 +138,20 @@ event.preventDefault()
     } else if (event.key === "s" || event.key === "S") {
 
         player1Pressed = 2;
-        player1Cache.push(player1Pressed);
+        endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
         player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
         gettingClicked(player1Choice);
 
         //left
     } else if (event.key === "a" || event.key === "A") {
-
-        player1Pressed = 3;
-        player1Cache.push(player1Pressed);
+        player1Pressed = 3
+        endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
         player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
         gettingClicked(player1Choice);
 
@@ -142,17 +168,21 @@ document.addEventListener("keydown", function(event) {
 event.preventDefault();
     //up
 if (event.key === "ArrowUp") {
-
-    player2Pressed = 0;
-    player2Cache.push(player2Pressed);
+    player2Pressed = 0
+    endTime = performance.now()
+    player2Cache = player2Pressed;
+    player2Filled = true;
+    scoringSystem2(player2Pressed,endTime);
     player2Choice = document.getElementById("" + player2Dpad[player2Pressed]);
     gettingClicked(player2Choice);
 
     //right
 } else if (event.key === "ArrowRight") {
-
     player2Pressed = 1;
-    player2Cache.push(player2Pressed);
+    endTime = performance.now()
+    player2Cache = player2Pressed;
+    player2Filled = true;
+    scoringSystem2(player2Pressed,endTime);
     player2Choice = document.getElementById("" + player2Dpad[player2Pressed]);
     gettingClicked(player2Choice);
 
@@ -160,7 +190,10 @@ if (event.key === "ArrowUp") {
 } else if (event.key === "ArrowDown") {
 
     player2Pressed = 2;
-    player2Cache.push(player2Pressed);
+    endTime = performance.now()
+    player2Cache = player2Pressed;
+    player2Filled = true;
+    scoringSystem2(player2Pressed,endTime);
     player2Choice = document.getElementById("" + player2Dpad[player2Pressed]);
     gettingClicked(player2Choice);
 
@@ -168,7 +201,12 @@ if (event.key === "ArrowUp") {
 } else if (event.key === "ArrowLeft") {
 
     player2Pressed = 3;
-    player2Cache.push(player2Pressed);
+    endTime = performance.now()
+
+    player2Cache = player2Pressed;
+    player2Filled = true;
+
+    scoringSystem2(player2Pressed,endTime);
     player2Choice = document.getElementById("" + player2Dpad[player2Pressed]);
     gettingClicked(player2Choice);
 
@@ -197,70 +235,70 @@ function bringPure(imgPads) {
 }
 
 
-function scoringSystem1(player1Pressed, time) {
+function scoringSystem1(scoringtime ,endtime) {
     //if player1 pressed and Ai didnt
-    if (player1Cache.length > aiCache1.length) {
-        player1Cache.shift();
+    if (player1Filled === true && aiFilled1 === false) {
         //needs change for balance
         player1Score -= 6
-        console.log(player1Score)
+        console.log(player1Score + " 1 patience")
     }
-
     else {
+        timeDifference = endtime - startTime
+        
         //if player1 and ai press and same value
-        if (player1Cache[0] === aiCache1[0]) {
-            player1Cache.shift();
-            aiCache1.shift();
+        if (player1Cache === aiCache1) {
             //balance needed
             //T2 end time use
-            console.log("hello")
-            player1Score += (Math.ceil((time - startTime)^(-1))) * 100;
-            console.log(player1Score)
+            console.log(Math.ceil(((endtime - startTime)*100)**(-1)) + " this")
+            player1Score += ((endtime - startTime)**(-1)) * 100;
+            console.log(player1Score + " 1 Nice")
         } 
         //if player1 and ai press but not same value
         else {
-            player1Cache.shift()
-            aiCache1.shift()
             //balance needed
             //T2 end time use
             player1Score -= 50;
-            console.log(player1Score)
+            console.log(player1Score + " 1 Bad!")
         
         }
     }
+    player1Cache = 0;
+    aiCache1 = 0;
+    player1Filled = false;
+    aiFilled1 = false
 }
 
 
-function scoringSystem2(player2Pressed, time) {
+function scoringSystem2(player2Pressed, endtime) {
     //if player2 pressed and Ai didnt
-    if (player2Cache.length > aiCache2.length) {
-        player2Cache.shift();
+    if (player2Filled === true && aiFilled2 === false) {
+        player2Filled = false
         //needs change for balance
         player2Score -= 6
-        console.log(player2Score)
+        console.log(player2Score + " 2 patience")
     }
     else {
         //if player2 and ai press and same value
-        if (player2Cache[0] === aiCache2[0]) {
-            player2Cache.shift();
-            aiCache2.shift();
+        if (player2Cache === aiCache2) {
             //balance needed
             //T2 end time use
-            console.log("hello2")
-            player2Score += (Math.ceil((time - startTime)^(-1))) * 100;
-            console.log(player2Score)
+            player2Score += (Math.ceil((endtime - startTime)^(-1))) * 100;
+            console.log(player2Score + " 2 Nice")
         } 
-        //if player2 and ai press but not same value
+        //if player1 and ai press but not same value
         else {
-            player2Cache.shift()
-            aiCache2.shift()
             //balance needed
             //T2 end time use
             player2Score -= 50;
-            console.log(player2Score)
+            console.log(player2Score + " 2 Bad!")
         }
     }
+    player2Cache = 0;
+    aiCache2 = 0;
+    player2Filled = false;
+    aiFilled2 = false
 }
+
 
 
 
