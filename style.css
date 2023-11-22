@@ -1,3 +1,45 @@
+/* for first page */
+.actualInteraction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    z-index: 10;
+}
+
+.beginningChoices {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+
+.startOptions {
+    display: grid;
+    grid-template-columns: 100px 300px;
+    grid-template-rows: 75px 75px 75px 75px 75px;
+    gap: 10px;
+    padding: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.choosingIcon1,
+.choosingIcon2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+
+
+
+
+
+
+/*  */
 
 
 .iconContainer {
@@ -33,7 +75,7 @@
     align-items: center;
     position: relative;
     /* solves the issue of dpad not getting clicked cause overlayed by others */
-    z-index: 10;     
+    z-index: 30;     
 }
 
 .Dpad.Ai {

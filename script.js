@@ -14,15 +14,22 @@ let player2Mem =[];
 let player1Score = 0;
 let player2Score = 0;
 
+let sliderScore = document.getElementById("myRange");
+let initialSlider = (parseInt(sliderScore.max) + parseInt(sliderScore.min))/2
+sliderScore.value = initialSlider;
+
+
 let aiCache = -1
 let aiFilled = false;
 
 let player1Cache = -1
 let player1Filled = false;
+let aiCache1 = -1
 let aiFilled1 = false;
 
 let player2Cache = -1
 let player2Filled = false;
+let aiCache2 = -1
 let aiFilled2 = false;
 
 
@@ -36,7 +43,12 @@ let player2Choice = "";
 
 //has to be revised when upscaled for multiple ai values 
 let startTime = 0;
-let endTime = 0;
+
+//variables to adjust game. 
+let speedOfGame = 800;
+let loadingTime = 5000;
+
+
 
 
 // Ai to randomly press on its Dpad
@@ -48,18 +60,22 @@ function untoItself() {
     //ai to punish if player didnt hit anything
     if (aiFilled1 === true && player1Filled === false) {
         aiFilled1 = false;
+        let changeInScore = 0;
         //balance needed
         //T5 end time
-        player1Score -= 80
-        console.log(player1Score)
+        changeInScore = -300
+        player1Score += changeInScore
+        displayScore(changeInScore, 1);
     }
 
     if (aiFilled2 === true && player2Filled === false) {
         aiFilled2 = false;
+        let changeInScore = 0;
         //balance needed
         //T5 end time
-        player1Score -= 80
-        console.log(player2Score)
+        changeInScore = -300
+        player2Score += changeInScore
+        displayScore(changeInScore, 2);
     }
 
     //T1 start time, T6 restart process
@@ -76,12 +92,12 @@ function untoItself() {
     // on class will be added 
     gettingClicked(aiChoice);
      // function will occur unto itself
-     setTimeout(function(){untoItself()},3000)
+     setTimeout(function(){untoItself()},speedOfGame)
 }
 
 //waits until the page loads and some time to start ai randomly pressing
 window.onload = function() {
-    setTimeout(untoItself, 7000);
+    setTimeout(untoItself, loadingTime);
   };
 
     
@@ -116,7 +132,7 @@ event.preventDefault()
     if (event.key === "w" || event.key === "W") {
 
         player1Pressed = 0;
-        endTime = performance.now()
+        let endTime = performance.now()
         player1Cache = player1Pressed;
         player1Filled = true;
         scoringSystem1(player1Pressed,endTime);
@@ -127,7 +143,7 @@ event.preventDefault()
     } else if (event.key === "d" || event.key === "D") {
 
         player1Pressed = 1;
-        endTime = performance.now()
+        let endTime = performance.now()
         player1Cache = player1Pressed;
         player1Filled = true;
         scoringSystem1(player1Pressed,endTime);
@@ -138,7 +154,7 @@ event.preventDefault()
     } else if (event.key === "s" || event.key === "S") {
 
         player1Pressed = 2;
-        endTime = performance.now()
+        let endTime = performance.now()
         player1Cache = player1Pressed;
         player1Filled = true;
         scoringSystem1(player1Pressed,endTime);
@@ -148,7 +164,7 @@ event.preventDefault()
         //left
     } else if (event.key === "a" || event.key === "A") {
         player1Pressed = 3
-        endTime = performance.now()
+        let endTime = performance.now()
         player1Cache = player1Pressed;
         player1Filled = true;
         scoringSystem1(player1Pressed,endTime);
@@ -169,7 +185,7 @@ event.preventDefault();
     //up
 if (event.key === "ArrowUp") {
     player2Pressed = 0
-    endTime = performance.now()
+    let endTime = performance.now()
     player2Cache = player2Pressed;
     player2Filled = true;
     scoringSystem2(player2Pressed,endTime);
@@ -179,7 +195,7 @@ if (event.key === "ArrowUp") {
     //right
 } else if (event.key === "ArrowRight") {
     player2Pressed = 1;
-    endTime = performance.now()
+    let endTime = performance.now()
     player2Cache = player2Pressed;
     player2Filled = true;
     scoringSystem2(player2Pressed,endTime);
@@ -190,7 +206,7 @@ if (event.key === "ArrowUp") {
 } else if (event.key === "ArrowDown") {
 
     player2Pressed = 2;
-    endTime = performance.now()
+    let endTime = performance.now()
     player2Cache = player2Pressed;
     player2Filled = true;
     scoringSystem2(player2Pressed,endTime);
@@ -201,7 +217,7 @@ if (event.key === "ArrowUp") {
 } else if (event.key === "ArrowLeft") {
 
     player2Pressed = 3;
-    endTime = performance.now()
+    let endTime = performance.now()
 
     player2Cache = player2Pressed;
     player2Filled = true;
@@ -224,7 +240,12 @@ if (event.key === "ArrowUp") {
 function gettingClicked(TBC) {
     TBC.classList.add("on");
     // the "effect" is removed after a short while"
-    setTimeout(function(){bringPure(TBC)}, 500)
+    if (TBC.id === "aiU" || TBC.id === "aiR"|| TBC.id === "aiD" || TBC.id === "aiL" ) {
+        setTimeout(function(){bringPure(TBC)}, 500)
+    } else {
+        setTimeout(function(){bringPure(TBC)}, 100)
+    }
+    
 // also, the functions records the ID what has been clicked
 }
     
@@ -235,70 +256,98 @@ function bringPure(imgPads) {
 }
 
 
-function scoringSystem1(scoringtime ,endtime) {
+function scoringSystem1(player1, endtime) {
+    //define variable to note change in score to be used on other functions
+    let changeInScore = 0;
     //if player1 pressed and Ai didnt
     if (player1Filled === true && aiFilled1 === false) {
         //needs change for balance
-        player1Score -= 6
-        console.log(player1Score + " 1 patience")
+        changeInScore = -200
+        player1Score += changeInScore 
     }
     else {
         timeDifference = endtime - startTime
-        
         //if player1 and ai press and same value
         if (player1Cache === aiCache1) {
+            let timeDifference = endtime - startTime
+            //balance needed
+            changeInScore = ((Math.ceil((((timeDifference - 500)**2)/300)/10))*10)+50
+            if (timeDifference > 500) {
+                changeInScore = 50
+            }
             //balance needed
             //T2 end time use
-            console.log(Math.ceil(((endtime - startTime)*100)**(-1)) + " this")
-            player1Score += ((endtime - startTime)**(-1)) * 100;
-            console.log(player1Score + " 1 Nice")
+            player1Score += changeInScore
         } 
         //if player1 and ai press but not same value
         else {
             //balance needed
             //T2 end time use
-            player1Score -= 50;
-            console.log(player1Score + " 1 Bad!")
+            changeInScore = -300
+            player1Score += changeInScore;
         
         }
     }
     player1Cache = 0;
     aiCache1 = 0;
     player1Filled = false;
-    aiFilled1 = false
+    aiFilled1 = false;
+    displayScore(changeInScore, 1);
 }
 
 
-function scoringSystem2(player2Pressed, endtime) {
+function scoringSystem2(player2, endtime) {
+    //define variable for change in score to be passed along other functions
+    let changeInScore = 0;
     //if player2 pressed and Ai didnt
     if (player2Filled === true && aiFilled2 === false) {
         player2Filled = false
         //needs change for balance
-        player2Score -= 6
-        console.log(player2Score + " 2 patience")
+        changeInScore = -200
+        player2Score += changeInScore
     }
     else {
         //if player2 and ai press and same value
         if (player2Cache === aiCache2) {
+            let timeDifference = endtime - startTime
+            //balance needed 
+            changeInScore = ((Math.ceil((((timeDifference - 500)**2)/300)/10))*10)+50
+            if (timeDifference > 500) {
+                changeInScore = 50
+            }
             //balance needed
             //T2 end time use
-            player2Score += (Math.ceil((endtime - startTime)^(-1))) * 100;
-            console.log(player2Score + " 2 Nice")
+            player2Score += changeInScore;
         } 
-        //if player1 and ai press but not same value
+        //if player2 and ai press but not same value
         else {
             //balance needed
             //T2 end time use
-            player2Score -= 50;
-            console.log(player2Score + " 2 Bad!")
+            changeInScore = -300;
+            player2Score += changeInScore;
+            
         }
     }
     player2Cache = 0;
     aiCache2 = 0;
     player2Filled = false;
     aiFilled2 = false
+    displayScore(changeInScore, 2);
 }
 
+
+//Score is displayed in score box and vertical range
+function displayScore(scoreChange, num) {
+    if (num === 1) {
+    document.querySelector(".player1 > .NumberScore").textContent=player1Score;
+    sliderScore.value = parseInt(sliderScore.value) + parseInt(scoreChange);
+    } 
+    else if (num === 2) {
+    document.querySelector(".player2 > .NumberScore").textContent=player2Score;
+    sliderScore.value = parseInt(sliderScore.value) - parseInt(scoreChange);
+    }
+    
+}
 
 
 
