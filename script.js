@@ -1,15 +1,51 @@
 
+
+
+
+let player1WinRate = 0
+let player2WinRate = 0
+
+function winDisplay(thePlayer) {
+    if (thePlayer == 1) {
+    document.querySelector(".player1 > .NumberWin").textContent=player1WinRate;
+    } 
+    else if (thePlayer == 2) {
+    document.querySelector(".player2 > .NumberWin").textContent=player2WinRate;
+    }
+}
+
+let countdownForGame = 3
+let qBegin = 0
+
+setTimeout(startTheGame, 1000)
+function startTheGame() {
+    countdownForGame -= 1
+    document.querySelector(".numDown").textContent=countdownForGame
+    if (countdownForGame === 0) {
+        document.querySelector(".numDown").textContent="Go!!!"
+        document.querySelector(".countdown").style.display = "none"
+        document.querySelector(".numDown").style.display = "none"
+        console.log("sup")
+        qBegin += 1
+        newGame(qBegin)
+    }else{
+        setTimeout(startTheGame, 1000)
+    }
+}
+
+console.log(qBegin)
+function newGame(kBegin) {
+    if (kBegin == 0) {
+        console.log("hi")
+}
+else{
+document.querySelector(".hidingPage").classList.remove("hidingEverything")
 //dpad of ai and players by using array of identity since its unique and therefore not confused
 const aiDpad = ["aiU", "aiR", "aiD", "aiL"];
 const player1Dpad = ["player1U", "player1R", "player1D", "player1L"];
 const player2Dpad = ["player2U", "player2R", "player2D", "player2L"];
 
-let aiMem = [];
-let aiMem1 = [];
-let aiMem2 = [];
 
-let player1Mem = [];
-let player2Mem =[];
 
 let player1Score = 0;
 let player2Score = 0;
@@ -45,10 +81,31 @@ let player2Choice = "";
 let startTime = 0;
 
 //variables to adjust game. 
-let speedOfGame = 800;
-let loadingTime = 5000;
+let speedOfGame = 600;
+let loadingTime = 600;
+
+let timeRemaining = 60;
 
 
+
+//to keep track of the games time, used inside windows.onload
+document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
+
+function stopWatch() {
+    timeRemaining -= 1;
+    document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
+    if (timeRemaining == 0) {
+
+        if (player1Score > player2Score){
+            winSystem(1);
+        } else if (player1Score < player2Score){
+            winSystem(2);
+        } else if (player1Score == player2Score){
+            winSystem(3);
+        }
+
+    }else {setTimeout(stopWatch, 1000)}
+}
 
 
 // Ai to randomly press on its Dpad
@@ -96,9 +153,13 @@ function untoItself() {
 }
 
 //waits until the page loads and some time to start ai randomly pressing
-window.onload = function() {
-    setTimeout(untoItself, loadingTime);
-  };
+
+    setTimeout(function() {
+        untoItself()
+        stopWatch()
+    }, loadingTime);
+  
+
 
     
     
@@ -346,11 +407,33 @@ function displayScore(scoreChange, num) {
     document.querySelector(".player2 > .NumberScore").textContent=player2Score;
     sliderScore.value = parseInt(sliderScore.value) - parseInt(scoreChange);
     }
-    
+
+    if (sliderScore.value == sliderScore.max) {
+        winSystem(1)
+    }else if (parseInt(sliderScore.value) === 0) {
+        winSystem(2)
+        }
+}
+
+function winSystem(winner) {
+    console.log("hi")
+    document.querySelector(".hidingPage").classList.add("hidingEverything")
+    if (winner == 1) {
+        document.querySelector(".player1Won").style.display = "grid"
+        winDisplay(1);
+    }
+    else if (winner == 2) {
+        document.querySelector(".player2Won").style.display = "grid"
+        winDisplay(2);
+    }
+    else if (winner == 3) {
+        document.querySelector(".playerTie").style.display = "grid"
+    }
 }
 
 
 
+//document.querySelector(".hidingPage").classList.add("hidingEverything")
 //T1 I want a way to start the time the moment the ai hits (key action) a key and 
 //T2 in the middle, the player can also end the time by hitting the key (key action). The difference between
 //T3 start and finish will add on the score(key action).
@@ -432,6 +515,13 @@ function displayScore(scoreChange, num) {
 
 
 
+}
+}
+
+
+
+
+
 // (Stuff for Gif)
 
 // ToDo
@@ -488,4 +578,4 @@ document.querySelector("#giphy-results").appendChild(newImageTag);
 //     // Bind a validation function to the submit of the profile
 
 // });
-document.addEventListener('DOMContentLoaded', giphySearch);
+ document.addEventListener('DOMContentLoaded', giphySearch);

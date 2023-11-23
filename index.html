@@ -30,7 +30,7 @@
     </header>
 
     <main>
-
+        <div class="hidingPage hidingEverything">
         <section class="aiCommand">
             <!-- the buttons that Ai will randomnly activate and players must follow -->
             <div class="Dpad Ai">
@@ -103,6 +103,9 @@
             </div>
         </section>
         <section class="bottomInputs">
+
+            <div class="timeRemaining">00s</div>
+
             <!-- shows players who is winning and progress. Also can press the pause button -->
             <div class="SlidingScore">
                 <input type="range" min="0" max="10000" step="50" class="slider" id="myRange" orient="vertical"> 
@@ -112,7 +115,34 @@
                 <button class="mainMenu" id="pauseBtn">pause</button>
             </div>
 
+
+
         </section>
+        </div>
+        
+        <section class="theHiders">
+
+            <div class="countdown">
+                <h2 class="numDown">3</h2>
+            </div>
+
+            <div class="player1Won">
+                <div class="player1Victory"><h3>You are zen!!!</h3><p>Congrats on winning!</p></div>
+                <div class="player2Loss"><h3>Truly you are monkey</h3><p>try better next time</p></div>
+            </div>
+
+            <div class="player2Won">
+                <div class="player1Victory"><h3>Truly you are monkey</h3><p>try better next time</p></div>
+                <div class="player2Loss"><h3>You are zen!!!</h3><p>Congrats on winning!</p></div>
+            </div>
+
+            <div class="playerTie">
+                <div class="player1Tie"><h3>It's a tie</h3><p>Congrats on a match well played</p></div>
+                <div class="player2Tie"><h3>It's a tie</h3><p>Congrats on a match well played</p></div>
+            </div>
+
+        </section>
+
     </main>
 
 

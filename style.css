@@ -8,38 +8,136 @@
     z-index: 10;
 }
 
+
+.actualInteraction > h1 {
+    font-size: 60px;
+}
+
 .beginningChoices {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    position: relative;
+    top: -10%   
 }
 
 
+.startBtn {
+    text-decoration: none;
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding:10px;
+    width: 140px;
+    margin:6px;
+}
+
 .startOptions {
+    /* display: none; */
+    position: fixed;
+    z-index: 5;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgb(117, 243, 201,0.5);
+}
+
+
+.modal-content {
     display: grid;
     grid-template-columns: 100px 300px;
-    grid-template-rows: 75px 75px 75px 75px 75px;
+    grid-template-rows: 70px 70px 70px 70px 70px 70px;
     gap: 10px;
-    padding: 60px;
-    justify-content: center;
-    align-items: center;
+    background-color: #fff;
+    width: 450px;
+    max-width: 100%;
+    margin: 60px auto;
+    padding:10px;
+}
+
+.xDiv {
+    position: absolute;
+    padding: 2em;
+    left: 90%;
+    top: -6%;
+    transform: translateX(-50%);
+    
+}
+
+.xImg {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+
+
+
+
+.startOptions > * {
+    background-color: #fefefe;
+    border: 3px solid #888;
+    height: 100%;
 }
 
 .choosingIcon1,
 .choosingIcon2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  align-items: center;
+}   
+
+.icon0,
+.icon2 {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.icon0.selected,
+.icon2.selected  {
+  border: 5px solid blue;
+  border-radius: 20px;
+}
+
+.icon2.selected {
+    border: 5px solid red;
+}
+
+.modal h2 {
+    margin-top: 0;
+  }
+  
+  .modal button {
+    margin-top: 10px;
+  }
+
+.form-select {
+   width: 80%;
+   cursor: pointer;
 }
 
 
 
-
-
-
-
 /*  */
+
+
+/* 
+.timeRemaining {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
 
 
 .iconContainer {
@@ -240,7 +338,8 @@
     align-items: center;     
     position: relative; 
     top: -450px;
-    grid-template-rows: 150px 30px;
+    grid-template-rows: 30px 150px 30px;
+    /* margin-top: 80px; */
     /* width: 100%;
     height: 100%;
     grid-template-rows: 200px 100px; */
@@ -317,4 +416,161 @@ input[type=range][orient=vertical] {
 
 .on.Left {
     filter: invert(8%) sepia(100%) saturate(7481%) hue-rotate(249deg) brightness(101%) contrast(142%);
+}
+
+
+
+.countdown {
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: block;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(6, 6, 6, 0.5);
+    font-size: 30px;
+    color: black;
+}
+
+.numDown {
+    z-index: 4;
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.hidingEverything {
+    display:none
+}
+
+.player1Won {
+    position: fixed;
+    z-index: 7;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(6, 6, 6, 0.5);
+    font-size: 30px;
+    color: black;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.player1Victory {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.player2Loss {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center
+}
+
+.player2Won {
+    position: fixed;
+    z-index: 7;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(6, 6, 6, 0.5);
+    font-size: 30px;
+    color: black;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.player2Victory {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.player1Loss {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center
+}
+
+.playerTie {
+    position: fixed;
+    z-index: 7;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(6, 6, 6, 0.5);
+    font-size: 30px;
+    color: black;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.player1Tie {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.player2Tie {
+    font-size: 300px;
+    color: black;
+    text-align: center;
+    align-items: center;
+    justify-content: center
+}
+
+.theHiders h3{
+    font-size: 40px;
+    color: yellow;
+    justify-content: center;
+    align-items: center;
+
+   
+}
+
+.theHiders p{
+    color: aquamarine;
+    font-size:18px;
+    margin: 0;
 }
