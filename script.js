@@ -1,6 +1,9 @@
 
 
-
+function displaySecondPage(gameModePicked, DifficultyOfGame, timeForGame, iconForPlayer1, iconForPlayer2) {
+    if (gameKeyValue == 0) {
+        return false
+    } else if (gameKeyValue == 1) {
 
 let player1WinRate = 0
 let player2WinRate = 0
@@ -416,8 +419,9 @@ function displayScore(scoreChange, num) {
 }
 
 function winSystem(winner) {
-    console.log("hi")
+
     document.querySelector(".hidingPage").classList.add("hidingEverything")
+
     if (winner == 1) {
         document.querySelector(".player1Won").style.display = "grid"
         winDisplay(1);
@@ -499,24 +503,16 @@ function winSystem(winner) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 }
+
+
+
+
+    }
+}
+
+
 
 
 
