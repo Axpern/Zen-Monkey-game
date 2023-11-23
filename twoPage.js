@@ -1,3 +1,87 @@
+let player1WinRate = 0
+let player2WinRate = 0
+let theGameisPaused = 1;
+
+document.querySelector(".secondPage").classList.add("hidingEverything"); 
+let openModalBtn = document.getElementById("startGame");
+let modal = document.getElementById("modalOptions");
+let theImageChosenPlayer1 = document.getElementById("player1ChoosingIcon")
+let theImageChosenPlayer2 = document.getElementById("player2ChoosingIcon")
+let gameKeyValue = 1;
+
+
+document.querySelector("#icon1-1").classList.add("selected");
+document.querySelector("#icon1-2").classList.add("selected");
+
+openModalBtn.addEventListener("click", function() {
+  modal.style.display = 'block';
+});
+
+document.querySelector(".xImg").addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+
+document.querySelector("#cancelBtn").addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+
+
+
+
+
+
+
+// Get all icon elements
+let player1Icon = document.querySelectorAll('.icon0')
+
+player1Icon.forEach(function(ic) {
+  ic.addEventListener("click", function(){
+    player1Icon.forEach(function(e){
+      e.classList.remove("selected")
+    })
+    ic.classList.add("selected")
+    
+  })
+})
+
+let player2Icon = document.querySelectorAll('.icon2')
+
+player2Icon.forEach(function(ic) {
+  ic.addEventListener("click", function(){
+    player2Icon.forEach(function(e){
+      e.classList.remove("selected")
+    })
+    ic.classList.add("selected")
+  })
+})
+
+
+document.getElementById('submitBtn').addEventListener('click', function() {
+  gameKeyValue = 1;
+  modal.style.display = 'none'
+  let keyValueMode = document.querySelector("#form1").value
+  let keyValueDif =document.querySelector("#form2").value
+  let keyValueTime = document.querySelector("#form3").value
+  let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
+  let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
+  let keyValueSrc1 = icon1Query.src
+  let keyValueSrc2 = icon2Query.src
+  document.querySelector(".secondPage").classList.add("hidingEverything");
+  document.querySelector(".firstPage").classList.add("hidingEverything");
+  document.querySelector(".secondPage").classList.remove("hidingEverything");
+  theGameisPaused = 0
+  displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueSrc1 , keyValueSrc2);
+});
+
+
+
+
+
+
+//second page js
+
 
 
 
@@ -40,7 +124,6 @@ function startTheGame() {
         document.querySelector(".numDown").textContent="Go!!!"
         document.querySelector(".countdown").style.display = "none"
         document.querySelector(".numDown").style.display = "none"
-        console.log("sup")
         qBegin += 1
         newGame(qBegin)
     }else{
@@ -48,13 +131,17 @@ function startTheGame() {
     }
 }
 
-console.log(qBegin)
+
 function newGame(kBegin) {
-    if (kBegin == 0) {
-        console.log("hi")
+    
+if (kBegin ==   0) {
+return false
 }
 else{
-document.querySelector(".hidingPage").classList.remove("hidingEverything")
+document.querySelector(".hidingPage").classList.remove("hidingEverything");
+theGameisPaused = 0;
+
+
 
 //dpad of ai and players by using array of identity since its unique and therefore not confused
 const aiDpad = ["aiU", "aiR", "aiD", "aiL"];
@@ -98,7 +185,7 @@ let startTime = 0;
 
 //variables to adjust game. 
 let speedOfGame = optionsForDif[DifficultyOfGame - 1];
-let loadingTime = 600;
+let loadingTime = 3500;
 
 let timeRemaining = optionsForTime[timeForGame - 1];
 
@@ -108,70 +195,81 @@ let timeRemaining = optionsForTime[timeForGame - 1];
 document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
 
 function stopWatch() {
-    timeRemaining -= 1;
-    document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
-    if (timeRemaining == 0) {
+    //subtracts only when game is unpaused. when =0, enters the win system
+    if (theGameisPaused == 0){    
+        timeRemaining -= 1;
+        document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
+        if (timeRemaining == 0) {
+            if (player1Score > player2Score){
+                winSystem(1);
+            } else if (player1Score < player2Score){
+                winSystem(2);
+            } else if (player1Score == player2Score){
+                winSystem(3);
+            }
 
-        if (player1Score > player2Score){
-            winSystem(1);
-        } else if (player1Score < player2Score){
-            winSystem(2);
-        } else if (player1Score == player2Score){
-            winSystem(3);
-        }
-
-    }else {setTimeout(stopWatch, 1000)}
+        }else {setTimeout(stopWatch, 1000)}
+    } 
+    else if (theGameisPaused == 1) {setTimeout(stopWatch, 1000)}
 }
+
 
 
 // Ai to randomly press on its Dpad
 function untoItself() {
-    // random number generator from 0 to 3
-    randomFour = Math.floor(Math.random()*4);
-    // the number will be used to get a value from an index
-    aiChoice = document.getElementById("" + aiDpad[randomFour]);
-    //ai to punish if player didnt hit anything
-    if (aiFilled1 === true && player1Filled === false) {
-        aiFilled1 = false;
-        let changeInScore = 0;
-        //balance needed
-        //T5 end time
-        changeInScore = -300
-        player1Score += changeInScore
-        displayScore(changeInScore, 1);
+
+    if (theGameisPaused == 0) {
+        // random number generator from 0 to 3
+        randomFour = Math.floor(Math.random()*4);
+        // the number will be used to get a value from an index
+        aiChoice = document.getElementById("" + aiDpad[randomFour]);
+        //ai to punish if player didnt hit anything
+        if (aiFilled1 === true && player1Filled === false) {
+            aiFilled1 = false;
+            let changeInScore = 0;
+            //balance needed
+            //T5 end time
+            changeInScore = -300
+            player1Score += changeInScore
+            displayScore(changeInScore, 1);
+        }
+
+        if (aiFilled2 === true && player2Filled === false) {
+            aiFilled2 = false;
+            let changeInScore = 0;
+            //balance needed
+            //T5 end time
+            changeInScore = -300
+            player2Score += changeInScore
+            displayScore(changeInScore, 2);
+        }
+
+        //T1 start time, T6 restart process
+        startTime = performance.now();
+
+        aiCache = randomFour;
+        aiFilled = true;
+
+        aiCache1 = aiCache;
+        aiFilled1 = aiFilled;
+        aiCache2 = aiCache;
+        aiFilled2 = aiFilled
+
+        // on class will be added 
+        gettingClicked(aiChoice);
+        // function will occur unto itself
+        setTimeout(function(){untoItself()},speedOfGame)
+    } else if (theGameisPaused == 1) {
+        setTimeout(function() {
+            untoItself()
+        }, loadingTime);
     }
 
-    if (aiFilled2 === true && player2Filled === false) {
-        aiFilled2 = false;
-        let changeInScore = 0;
-        //balance needed
-        //T5 end time
-        changeInScore = -300
-        player2Score += changeInScore
-        displayScore(changeInScore, 2);
-    }
-
-    //T1 start time, T6 restart process
-    startTime = performance.now();
-
-    aiCache = randomFour;
-    aiFilled = true;
-
-    aiCache1 = aiCache;
-    aiFilled1 = aiFilled;
-    aiCache2 = aiCache;
-    aiFilled2 = aiFilled
-
-    // on class will be added 
-    gettingClicked(aiChoice);
-     // function will occur unto itself
-     setTimeout(function(){untoItself()},speedOfGame)
 }
 
 //waits until the page loads and some time to start ai randomly pressing
 
-    setTimeout(function() {
-        untoItself()
+    setTimeout(function() {untoItself()
         stopWatch()
     }, loadingTime);
   
@@ -205,7 +303,8 @@ iterateOver.forEach(function(element){
     // player 1 Dpad js
 document.addEventListener("keydown", function(event) {
 event.preventDefault()
-        //up
+if (theGameisPaused == 0) {
+    //up
     if (event.key === "w" || event.key === "W") {
 
         player1Pressed = 0;
@@ -249,8 +348,11 @@ event.preventDefault()
         gettingClicked(player1Choice);
 
     }
+} else if (theGameisPaused == 1) {
+    return false
+} 
+        
   });
-
 
 
 
@@ -259,7 +361,8 @@ event.preventDefault()
     // player 2 Dpad js
 document.addEventListener("keydown", function(event) {
 event.preventDefault();
-    //up
+if (theGameisPaused == 0) {
+        //up
 if (event.key === "ArrowUp") {
     player2Pressed = 0
     let endTime = performance.now()
@@ -304,12 +407,11 @@ if (event.key === "ArrowUp") {
     gettingClicked(player2Choice);
 
 }
+} else if (theGameisPaused == 1) {
+    return false
+}
+
 });
-
-
-
-
-
 
 
 
@@ -317,8 +419,8 @@ if (event.key === "ArrowUp") {
 function gettingClicked(TBC) {
     TBC.classList.add("on");
     // the "effect" is removed after a short while"
-    if (TBC.id === "aiU" || TBC.id === "aiR"|| TBC.id === "aiD" || TBC.id === "aiL" ) {
-        setTimeout(function(){bringPure(TBC)}, 500)
+    if (TBC.id === "aiU" || TBC.id === "aiR"|| TBC.id === "aiD" || TBC.id === "aiL") {
+        setTimeout(function(){bringPure(TBC)}, (optionsForDif[DifficultyOfGame - 1] - 150))
     } else {
         setTimeout(function(){bringPure(TBC)}, 100)
     }
@@ -333,7 +435,7 @@ function bringPure(imgPads) {
 }
 
 
-function scoringSystem1(player1, endtime) {
+function scoringSystem1(restartProtocol, endtime) {
     //define variable to note change in score to be used on other functions
     let changeInScore = 0;
     //if player1 pressed and Ai didnt
@@ -365,15 +467,18 @@ function scoringSystem1(player1, endtime) {
         
         }
     }
+
     player1Cache = 0;
     aiCache1 = 0;
     player1Filled = false;
     aiFilled1 = false;
     displayScore(changeInScore, 1);
-}
+    }
+    
 
 
-function scoringSystem2(player2, endtime) {
+
+function scoringSystem2(restartProtocol, endtime) {
     //define variable for change in score to be passed along other functions
     let changeInScore = 0;
     //if player2 pressed and Ai didnt
@@ -405,12 +510,15 @@ function scoringSystem2(player2, endtime) {
             
         }
     }
+
     player2Cache = 0;
     aiCache2 = 0;
     player2Filled = false;
     aiFilled2 = false
     displayScore(changeInScore, 2);
 }
+
+   
 
 
 //Score is displayed in score box and vertical range
@@ -450,6 +558,71 @@ function winSystem(winner) {
 
 
 
+
+
+// let openMenuButton = document.getElementById("pauseBtn");
+// openMenuButton.addEventListener("click", function() {
+//     modal.style.display = 'block';
+//     document.querySelector(".secondPage").classList.add("hidingEverything");
+//     theGameisPaused = 1
+// });
+
+// document.querySelector(".xImg").addEventListener('click', function() {
+//     modal.style.display = 'none';
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     theGameisPaused = 0
+//   });
+  
+  
+//   document.querySelector("#cancelBtn").addEventListener('click', function() {
+//     modal.style.display = 'none';
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     theGameisPaused = 0
+//   });
+  
+
+
+
+//   function restartProtocol() {
+//     player1Score = 0;
+//     player2Score = 0;
+//     clearInterval()
+//   }
+
+//   document.getElementById('submitBtn').addEventListener('click', function() {
+//     gameKeyValue = 1;
+//     modal.style.display = 'none';
+//     let keyValueMode = document.querySelector("#form1").value
+//     let keyValueDif =document.querySelector("#form2").value
+//     let keyValueTime = document.querySelector("#form3").value
+//     let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
+//     let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
+//     let keyValueSrc1 = icon1Query.src
+//     let keyValueSrc2 = icon2Query.src
+//     document.querySelector(".secondPage").classList.add("hidingEverything");
+//     document.querySelector(".firstPage").classList.add("hidingEverything");
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueSrc1 , keyValueSrc2);
+//   });
+
+
+//   document.getElementById('submitBtn').addEventListener('click', function() {
+//     gameKeyValue = 1;
+//     modal.style.display = 'none'
+//     let keyValueMode = document.querySelector("#form1").value
+//     let keyValueDif =document.querySelector("#form2").value
+//     let keyValueTime = document.querySelector("#form3").value
+//     let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
+//     let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
+//     let keyValueSrc1 = icon1Query.src
+//     let keyValueSrc2 = icon2Query.src
+//     document.querySelector(".firstPage").classList.add("hidingEverything");
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueSrc1 , keyValueSrc2);
+//   });
+
+
+
 //document.querySelector(".hidingPage").classList.add("hidingEverything")
 //T1 I want a way to start the time the moment the ai hits (key action) a key and 
 //T2 in the middle, the player can also end the time by hitting the key (key action). The difference between
@@ -457,56 +630,6 @@ function winSystem(winner) {
 //T4 end the time when the ai hits another key (key action)
 //T5 if player did not hit, lose score(key action)
 //T6 process repeats
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

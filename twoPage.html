@@ -3,17 +3,74 @@
 <head>
 
   <meta charset="UTF-8">
-  <title>Who becomes Zen?</title>
+  <title>Monkey or Zen?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="normalize.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
- 
+  <!-- <link rel="stylesheet" href="style.css"> -->
 
 </head>
-
 <body>
-    <div class="secondPage">
+    <section class="firstPage">
+
+    <section class="startDisplay">
+        <div class="firstColumn">moo</div>
+        <div class="secondColumn">woo</div>
+    </section>
+
+    <section class="actualInteraction">
+
+        <h1>Monkey or Zen?</h1>
+        <div class="beginningChoices">
+            <a href="#" class="startBtn" id="startGame">Start</a>
+            <a href="#" class="startBtn" id="howToPlay">how to play</a>
+        </div>
+
+    </section>
+    </section>
+    
+    <section class="startOptions" id="modalOptions">    
+        <div class="modal-content">
+        <div class="xDiv"><img src="imgs/Red-x.png" class="xImg"/></div>
+        <p>Choose Game Mode:</p>
+        <select class="form-select" aria-label="Default select example" id="form1">
+            <option value="1">Focused Monkinator</option>
+        </select>
+        <p>Pick level Of Difficulty:</p>
+        <select class="form-select" aria-label="Default select example2" id="form2">
+            <option value="1">Easy</option>
+            <option value="2">Normal</option>
+            <option value="3">Hard</option>
+        </select>
+        <p>Time till the clock runs out:</p>
+        <select class="form-select" aria-label="Default select example3" id="form3">
+            <option value="1">1 min</option>
+            <option value="2">2 min</option>
+            <option value="3">4 min</option>
+        </select>
+
+        
+        <p>Player1: Choose Your Icon</p>
+        <div class="choosingIcon1" id="player1ChoosingIcon">
+            <img src="imgs/icon-zen1.png" alt="Icon 1.1" class="icon0" id="icon1-1"/>
+            <img src="imgs/icon-zen2.png" alt="Icon 2.1" class="icon0" id="icon2-1"/>
+            <img src="imgs/icon-zen3.png" alt="Icon 3.1" class="icon0" id="icon3-1"/>
+        </div>
+
+        <p>Player2: Choose Your Icon</p>
+        <div class="choosingIcon2" id="player2ChoosingIcon">
+            <img src="imgs/icon-monkey1.png" alt="Icon 1.2" class="icon2" id="icon1-2"/>
+            <img src="imgs/icon-monkey2.png" alt="Icon 2.2" class="icon2" id="icon2-2"/>
+            <img src="imgs/icon-monkey3.png" alt="Icon 3.2" class="icon2" id="icon3-2"/>
+        
+        </div>
+        <button id="cancelBtn" class="menuBtn">Close</button>
+        <button id="submitBtn" class="menuBtn">Play!</button>
+    </div>
+    </section>
+</section>
+<div class="secondPage">
     <header> 
         <!-- icons in a container -->
         <section class="iconContainer">
@@ -143,14 +200,22 @@
 
         </section>
 
+
     </main>
 
 </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script  src="./script.js"></script>
-    <script  src="./fortesting.js"></script>
 
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script  src="./twoPage.js"></script>
+
+
+
+
+    
 </body>
 
 </html>
