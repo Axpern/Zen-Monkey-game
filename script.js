@@ -1,12 +1,23 @@
 
 
+let player1WinRate = 0
+let player2WinRate = 0
+
 function displaySecondPage(gameModePicked, DifficultyOfGame, timeForGame, iconForPlayer1, iconForPlayer2) {
     if (gameKeyValue == 0) {
         return false
     } else if (gameKeyValue == 1) {
 
-let player1WinRate = 0
-let player2WinRate = 0
+let optionsForMode = [0]
+let optionsForDif = [800, 600, 400]
+let optionsForTime = [60, 120, 240]
+
+let defaultIcone1toChange = document.getElementById("theIconPlayer1uses");
+let defaultIcone2toChange = document.getElementById("theIconPlayer2uses");
+defaultIcone1toChange.src = iconForPlayer1
+defaultIcone2toChange.src = iconForPlayer2
+
+
 
 function winDisplay(thePlayer) {
     if (thePlayer == 1) {
@@ -21,6 +32,8 @@ let countdownForGame = 3
 let qBegin = 0
 
 setTimeout(startTheGame, 1000)
+
+//start the game
 function startTheGame() {
     countdownForGame -= 1
     document.querySelector(".numDown").textContent=countdownForGame
@@ -43,6 +56,7 @@ function newGame(kBegin) {
 }
 else{
 document.querySelector(".hidingPage").classList.remove("hidingEverything")
+
 //dpad of ai and players by using array of identity since its unique and therefore not confused
 const aiDpad = ["aiU", "aiR", "aiD", "aiL"];
 const player1Dpad = ["player1U", "player1R", "player1D", "player1L"];
@@ -84,10 +98,10 @@ let player2Choice = "";
 let startTime = 0;
 
 //variables to adjust game. 
-let speedOfGame = 600;
+let speedOfGame = optionsForDif[DifficultyOfGame - 1];
 let loadingTime = 600;
 
-let timeRemaining = 60;
+let timeRemaining = optionsForTime[timeForGame - 1];
 
 
 

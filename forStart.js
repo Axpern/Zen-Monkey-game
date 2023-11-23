@@ -60,10 +60,12 @@ document.getElementById('submitBtn').addEventListener('click', function() {
   let keyValueMode = document.querySelector("#form1").value
   let keyValueDif =document.querySelector("#form2").value
   let keyValueTime = document.querySelector("#form3").value
-  let keyValueicon1 = theImageChosenPlayer1.querySelector("img.selected")
-  let keyValueicon2 = theImageChosenPlayer2.querySelector("img.selected")
+  let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
+  let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
+  let keyValueSrc1 = icon1Query.src
+  let keyValueSrc2 = icon2Query.src
   document.querySelector(".firstPage").classList.add("hidingEverything");
   console.log(keyValueicon1)
-  // document.querySelector(".secondPage").classList.remove("hidingEverything");
-  // displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueicon1, keyValueicon2);
+  document.querySelector(".secondPage").classList.remove("hidingEverything");
+  displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueSrc1 , keyValueSrc2);
 });
