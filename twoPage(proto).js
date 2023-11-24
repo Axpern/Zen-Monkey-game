@@ -1,49 +1,147 @@
-
-
-let countdownForGame = 3
-
 let player1WinRate = 0
 let player2WinRate = 0
 let theGameisPaused = 1;
-let gameFinish = 1;
+
+document.querySelector(".secondPage").classList.add("hidingEverything"); 
+let openModalBtn = document.getElementById("startGame");
+let modal = document.getElementById("modalOptions");
+let theImageChosenPlayer1 = document.getElementById("player1ChoosingIcon")
+let theImageChosenPlayer2 = document.getElementById("player2ChoosingIcon")
+let gameKeyValue = 1;
+
+
+document.querySelector("#icon1-1").classList.add("selected");
+document.querySelector("#icon1-2").classList.add("selected");
+
+openModalBtn.addEventListener("click", function() {
+  modal.style.display = 'block';
+});
+
+document.querySelector(".xImg").addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+
+document.querySelector("#cancelBtn").addEventListener('click', function() {
+  modal.style.display = 'none';
+});
+
+
+
+
+
+
+
+
+// Get all icon elements
+let player1Icon = document.querySelectorAll('.icon0')
+
+player1Icon.forEach(function(ic) {
+  ic.addEventListener("click", function(){
+    player1Icon.forEach(function(e){
+      e.classList.remove("selected")
+    })
+    ic.classList.add("selected")
+    console.log(ic.src)
+    
+  })
+})
+
+let player2Icon = document.querySelectorAll('.icon2')
+
+player2Icon.forEach(function(ic) {
+  ic.addEventListener("click", function(){
+    player2Icon.forEach(function(e){
+      e.classList.remove("selected")
+    })
+    console.log(ic)
+    ic.classList.add("selected")
+  })
+})
+
+
+document.getElementById('submitBtn').addEventListener('click', function() {
+  gameKeyValue = 1;
+  modal.style.display = 'none'
+  let keyValueMode = document.querySelector("#form1").value
+  let keyValueDif =document.querySelector("#form2").value
+  let keyValueTime = document.querySelector("#form3").value
+  let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
+  let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
+  let keyValueSrc1 = icon1Query.src
+  let keyValueSrc2 = icon2Query.src
+  document.querySelector(".secondPage").classList.add("hidingEverything");
+  document.querySelector(".firstPage").classList.add("hidingEverything");
+  document.querySelector(".secondPage").classList.remove("hidingEverything");
+  theGameisPaused = 0
+  displaySecondPage(keyValueMode, keyValueDif, keyValueTime, keyValueSrc1 , keyValueSrc2);
+});
+
+
+
+
+
+
+//second page js
+
+
+
+
+
+function displaySecondPage(gameModePicked, DifficultyOfGame, timeForGame, iconForPlayer1, iconForPlayer2) {
+    if (gameKeyValue == 0) {
+        return false
+    } else if (gameKeyValue == 1) {
 
 let optionsForMode = [0]
 let optionsForDif = [800, 600, 400]
 let optionsForTime = [60, 120, 240]
 
-
-let gameModePicked = document.querySelector("#form1").value;
-let DifficultyOfGame = document.querySelector("#form2").value;
-let timeForGame = document.querySelector("#form3").value;
-
-
-//variables to adjust game.
-let loadingTime = 3500;
-
-let speedOfGame = optionsForDif[DifficultyOfGame - 1];
-let timeRemaining = "000";
-
-document.querySelector("#icon1-1").classList.add("selected");
-document.querySelector("#icon1-2").classList.add("selected");
-//the icon <img that is selected
-let theImageChosenPlayer1 = document.getElementById("player1ChoosingIcon");
-let theImageChosenPlayer2 = document.getElementById("player2ChoosingIcon");
-
-let icon1Query = theImageChosenPlayer1.querySelector("img.selected")
-let icon2Query = theImageChosenPlayer2.querySelector("img.selected")
-let keyValueSrc1 = icon1Query.src
-let keyValueSrc2 = icon2Query.src
-
-
-
-//the icon <img to be used
 let defaultIcone1toChange = document.getElementById("theIconPlayer1uses");
 let defaultIcone2toChange = document.getElementById("theIconPlayer2uses");
-defaultIcone1toChange.src = keyValueSrc1
-defaultIcone2toChange.src = keyValueSrc2 
+defaultIcone1toChange.src = iconForPlayer1
+defaultIcone2toChange.src = iconForPlayer2
 
 
 
+function winDisplay(thePlayer) {
+    if (thePlayer == 1) {
+    document.querySelector(".player1 > .NumberWin").textContent=player1WinRate;
+    } 
+    else if (thePlayer == 2) {
+    document.querySelector(".player2 > .NumberWin").textContent=player2WinRate;
+    }
+}
+
+let countdownForGame = 3
+let qBegin = 0
+
+setTimeout(startTheGame, 1000)
+
+//start the game
+function startTheGame() {
+    countdownForGame -= 1
+    document.querySelector(".numDown").textContent=countdownForGame
+    if (countdownForGame === 0) {
+        document.querySelector(".numDown").textContent="Go!!!"
+        document.querySelector(".countdown").style.display = "none"
+        document.querySelector(".numDown").style.display = "none"
+        qBegin += 1
+        newGame(qBegin)
+    }else{
+        setTimeout(startTheGame, 1000)
+    }
+}
+
+
+function newGame(kBegin) {
+    
+if (kBegin ==   0) {
+return false
+}
+else{
+document.querySelector(".hidingPage").classList.remove("hidingEverything");
+theGameisPaused = 0;
 
 
 
@@ -87,35 +185,11 @@ let player2Choice = "";
 //has to be revised when upscaled for multiple ai values 
 let startTime = 0;
 
+//variables to adjust game. 
+let speedOfGame = optionsForDif[DifficultyOfGame - 1];
+let loadingTime = 3500;
 
-function gettingClicked(TBC) {
-    TBC.classList.add("on");
-    // the "effect" is removed after a short while"
-    if (TBC.id === "aiU" || TBC.id === "aiR"|| TBC.id === "aiD" || TBC.id === "aiL") {
-        setTimeout(function(){bringPure(TBC)}, (optionsForDif[DifficultyOfGame - 1] - 150))
-    } else {
-        setTimeout(function(){bringPure(TBC)}, 100)
-    }
-    
-// also, the functions records the ID what has been clicked
-}
-    
-
-
-//removes effects on the code
-function bringPure(imgPads) {
-    imgPads.classList.remove("on");
-}   
-
-
-
-
-
-
-
-
-
-
+let timeRemaining = optionsForTime[timeForGame - 1];
 
 
 
@@ -123,11 +197,7 @@ function bringPure(imgPads) {
 document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
 
 function stopWatch() {
-    if (gameFinish == 1) {
-        return false
-    }
-    else {
-    //subtracts only when game is unpaused. when time=0, enters the win system
+    //subtracts only when game is unpaused. when =0, enters the win system
     if (theGameisPaused == 0){    
         timeRemaining -= 1;
         document.querySelector(".timeRemaining").textContent=timeRemaining + "s"
@@ -142,21 +212,14 @@ function stopWatch() {
 
         }else {setTimeout(stopWatch, 1000)}
     } 
-    else if (theGameisPaused == 1) {setTimeout(stopWatch, loadingTime)}
-}}
-
-
-
-
+    else if (theGameisPaused == 1) {setTimeout(stopWatch, 1000)}
+}
 
 
 
 // Ai to randomly press on its Dpad
 function untoItself() {
-    if (gameFinish == 1) {
-        return false
-    }
-    else {
+
     if (theGameisPaused == 0) {
         // random number generator from 0 to 3
         randomFour = Math.floor(Math.random()*4);
@@ -205,16 +268,26 @@ function untoItself() {
     }
 
 }
-}
+
+//waits until the page loads and some time to start ai randomly pressing
+
+    setTimeout(function() {untoItself()
+        stopWatch()
+    }, loadingTime);
+  
+
+
+    
+    
 
 
 
-
+    
 //skeletal structure
     // First start with click event listener.
     // Clicking will change the color of the clicked dpad to indicate it listened
     // the elements that need an event listener must be queried, all of them.
-    const iterateOver = document.querySelectorAll(".pad>img");
+const iterateOver = document.querySelectorAll(".pad>img");
 
 
 //the event listeners
@@ -229,66 +302,64 @@ iterateOver.forEach(function(element){
 })
 
 
-
-
-// player 1 Dpad js
+    // player 1 Dpad js
 document.addEventListener("keydown", function(event) {
-    event.preventDefault()
-    if (theGameisPaused == 0) {
-        //up
-        if (event.key === "w" || event.key === "W") {
-    
-            player1Pressed = 0;
-            let endTime = performance.now()
-            player1Cache = player1Pressed;
-            player1Filled = true;
-            scoringSystem1(player1Pressed,endTime);
-            player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
-            gettingClicked(player1Choice);
-    
-            //right
-        } else if (event.key === "d" || event.key === "D") {
-    
-            player1Pressed = 1;
-            let endTime = performance.now()
-            player1Cache = player1Pressed;
-            player1Filled = true;
-            scoringSystem1(player1Pressed,endTime);
-            player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
-            gettingClicked(player1Choice);
-    
-            //down
-        } else if (event.key === "s" || event.key === "S") {
-    
-            player1Pressed = 2;
-            let endTime = performance.now()
-            player1Cache = player1Pressed;
-            player1Filled = true;
-            scoringSystem1(player1Pressed,endTime);
-            player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
-            gettingClicked(player1Choice);
-    
-            //left
-        } else if (event.key === "a" || event.key === "A") {
-            player1Pressed = 3
-            let endTime = performance.now()
-            player1Cache = player1Pressed;
-            player1Filled = true;
-            scoringSystem1(player1Pressed,endTime);
-            player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
-            gettingClicked(player1Choice);
-    
-        }
-    } else if (theGameisPaused == 1) {
-        return false
-    } 
-            
-        });
-    
+event.preventDefault()
+if (theGameisPaused == 0) {
+    //up
+    if (event.key === "w" || event.key === "W") {
+
+        player1Pressed = 0;
+        let endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
+        player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
+        gettingClicked(player1Choice);
+
+        //right
+    } else if (event.key === "d" || event.key === "D") {
+
+        player1Pressed = 1;
+        let endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
+        player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
+        gettingClicked(player1Choice);
+
+        //down
+    } else if (event.key === "s" || event.key === "S") {
+
+        player1Pressed = 2;
+        let endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
+        player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
+        gettingClicked(player1Choice);
+
+        //left
+    } else if (event.key === "a" || event.key === "A") {
+        player1Pressed = 3
+        let endTime = performance.now()
+        player1Cache = player1Pressed;
+        player1Filled = true;
+        scoringSystem1(player1Pressed,endTime);
+        player1Choice = document.getElementById("" + player1Dpad[player1Pressed]);
+        gettingClicked(player1Choice);
+
+    }
+} else if (theGameisPaused == 1) {
+    return false
+} 
         
-        
-        
-          
+  });
+
+
+
+
+  
     // player 2 Dpad js
 document.addEventListener("keydown", function(event) {
 event.preventDefault();
@@ -344,10 +415,26 @@ if (event.key === "ArrowUp") {
 
 });
 
-        
 
 
 
+function gettingClicked(TBC) {
+    TBC.classList.add("on");
+    // the "effect" is removed after a short while"
+    if (TBC.id === "aiU" || TBC.id === "aiR"|| TBC.id === "aiD" || TBC.id === "aiL") {
+        setTimeout(function(){bringPure(TBC)}, (optionsForDif[DifficultyOfGame - 1] - 150))
+    } else {
+        setTimeout(function(){bringPure(TBC)}, 100)
+    }
+    
+// also, the functions records the ID what has been clicked
+}
+    
+
+//removes effects on the code
+function bringPure(imgPads) {
+    imgPads.classList.remove("on");
+}
 
 
 function scoringSystem1(restartProtocol, endtime) {
@@ -436,9 +523,6 @@ function scoringSystem2(restartProtocol, endtime) {
    
 
 
-
-
-
 //Score is displayed in score box and vertical range
 function displayScore(scoreChange, num) {
     if (num === 1) {
@@ -457,20 +541,17 @@ function displayScore(scoreChange, num) {
         }
 }
 
-
-
-
 function winSystem(winner) {
 
     document.querySelector(".hidingPage").classList.add("hidingEverything")
 
     if (winner == 1) {
         document.querySelector(".player1Won").style.display = "grid"
-        document.querySelector(".player1 > .NumberWin").textContent=player1WinRate;
+        winDisplay(1);
     }
     else if (winner == 2) {
         document.querySelector(".player2Won").style.display = "grid"
-        document.querySelector(".player2 > .NumberWin").textContent=player2WinRate;   
+        winDisplay(2);
     }
     else if (winner == 3) {
         document.querySelector(".playerTie").style.display = "grid"
@@ -479,145 +560,27 @@ function winSystem(winner) {
 
 
 
-document.querySelector(".secondPage").classList.add("hidingEverything"); 
-let openModalBtn = document.getElementById("startGame");
-let modal = document.getElementById("modalOptions");
-let gameKeyValue = 1;
-
-openModalBtn.addEventListener("click", function() {
-  modal.style.display = 'block';
-});
-
-document.querySelector(".xImg").addEventListener('click', function() {
-  modal.style.display = 'none';
-});
 
 
-document.querySelector("#cancelBtn").addEventListener('click', function() {
-  modal.style.display = 'none';
-});
+// let openMenuButton = document.getElementById("pauseBtn");
+// openMenuButton.addEventListener("click", function() {
+//     modal.style.display = 'block';
+//     document.querySelector(".secondPage").classList.add("hidingEverything");
+//     theGameisPaused = 1
+// });
 
-
-
-
-
-
-
-
-// Get all icon elements
-let player1Icon = document.querySelectorAll('.icon0')
-
-player1Icon.forEach(function(ic) {
-  ic.addEventListener("click", function(){
-    player1Icon.forEach(function(e){
-      e.classList.remove("selected")
-    })
-    ic.classList.add("selected")
-    defaultIcone1toChange.src = ic.src
-  })
-})
-
-let player2Icon = document.querySelectorAll('.icon2')
-
-player2Icon.forEach(function(ic) {
-  ic.addEventListener("click", function(){
-    player2Icon.forEach(function(e){
-      e.classList.remove("selected")
-    })
-    ic.classList.add("selected")
-    defaultIcone2toChange.src  = ic.src
-  })
-})
-
-
-document.getElementById('submitBtn').addEventListener('click', function() {
-  gameKeyValue = 1;
-  gameFinish = 1;
-  countdownForGame = 3;
-  modal.style.display = 'none'
-  gameModePicked = document.querySelector("#form1").value;
-  DifficultyOfGame = document.querySelector("#form2").value;
-  timeForGame = document.querySelector("#form3").value;
-
-  speedOfGame = optionsForDif[DifficultyOfGame - 1];
-  timeRemaining = optionsForTime[timeForGame - 1];
-  document.querySelector(".secondPage").classList.add("hidingEverything");
-  document.querySelector(".firstPage").classList.add("hidingEverything");
-  document.querySelector(".secondPage").classList.remove("hidingEverything");
-  //waits until the page loads and some time to start ai randomly pressing
-  displaySecondPage();
-});
-
-
-
-
-
-
-//second page js
-
-
-
-
-
-function displaySecondPage() {
-    if (gameKeyValue == 0) {
-        return false
-    } else if (gameKeyValue == 1) {
-        setTimeout(startTheGame, 1000)
-    }
-}
-
-//start the game
-function startTheGame() {
-    countdownForGame -= 1
-    document.querySelector(".numDown").textContent=countdownForGame
-    if (countdownForGame === 0) {
-        document.querySelector(".numDown").textContent="Go!!!"
-        document.querySelector(".countdown").style.display = "none"
-        document.querySelector(".numDown").style.display = "none"
-        newGame()
-    }else{
-        setTimeout(startTheGame, 1000)
-    }
-}
-
-
-function newGame() {  
-
-    if (gameKeyValue == 0) {
-        return false
-    }
-    else{
-        document.querySelector(".hidingPage").classList.remove("hidingEverything");
-        theGameisPaused = 0;
-        gameFinish = 0
-        setTimeout(function() {untoItself()
-            stopWatch()
-        }, loadingTime);
-}}
-
-
-
-
-let openMenuButton = document.getElementById("pauseBtn");
-openMenuButton.addEventListener("click", function() {
-    modal.style.display = 'block';
-    document.querySelector(".secondPage").classList.add("hidingEverything");
-    theGameisPaused = 1
-});
-
-document.querySelector(".xImg").addEventListener('click', function() {
-    modal.style.display = 'none';
-    document.querySelector(".secondPage").classList.remove("hidingEverything");
-    theGameisPaused = 0
-  });
+// document.querySelector(".xImg").addEventListener('click', function() {
+//     modal.style.display = 'none';
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     theGameisPaused = 0
+//   });
   
   
-  document.querySelector("#cancelBtn").addEventListener('click', function() {
-    modal.style.display = 'none';
-    document.querySelector(".secondPage").classList.remove("hidingEverything");
-    theGameisPaused = 0
-  });
+//   document.querySelector("#cancelBtn").addEventListener('click', function() {
+//     modal.style.display = 'none';
+//     document.querySelector(".secondPage").classList.remove("hidingEverything");
+//     theGameisPaused = 0
+//   });
   
 
 
@@ -678,13 +641,14 @@ document.querySelector(".xImg").addEventListener('click', function() {
 
 
 
+}
+}
 
 
 
 
-
-    
-
+    }
+}
 
 
 
