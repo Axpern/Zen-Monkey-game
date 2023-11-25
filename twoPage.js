@@ -1,11 +1,14 @@
 
 
-let countdownForGame = 3
+let countdownForGame = 3;
 
-let player1WinRate = 0
-let player2WinRate = 0
+let player1WinRate = 0;
+let player2WinRate = 0;
 let theGameisPaused = 1;
 let gameFinish = 1;
+let pressPause = 0;
+let restartingGame = 0;
+let winnerBug = 0;
 
 let optionsForMode = [0]
 let optionsForDif = [800, 600, 400]
@@ -58,8 +61,11 @@ let player1Score = 0;
 let player2Score = 0;
 
 let sliderScore = document.getElementById("myRange");
+// sliderScore.disabled = true
 let initialSlider = (parseInt(sliderScore.max) + parseInt(sliderScore.min))/2
 sliderScore.value = initialSlider;
+
+
 
 
 let aiCache = -1
@@ -86,6 +92,12 @@ let player2Choice = "";
 
 //has to be revised when upscaled for multiple ai values 
 let startTime = 0;
+
+
+let classOfElement;
+let idOfElement;
+let indexOfElement;
+
 
 
 function gettingClicked(TBC) {
@@ -201,7 +213,7 @@ function untoItself() {
     } else if (theGameisPaused == 1) {
         setTimeout(function() {
             untoItself()
-        }, loadingTime);
+        }, 1500);
     }
 
 }
@@ -224,9 +236,46 @@ iterateOver.forEach(function(element){
         // a function plays after getting clicked
         // that function cause the clicked dpad to change colors by adding class
         gettingClicked(clickedPad)
-    
+        classOfElement = clickedPad.classList[0];
+
+        if (classOfElement == "player1") {
+            idOfElement = clickedPad.id;
+            indexOfElement = player1Dpad.indexOf(idOfElement);
+            clickListener(1, indexOfElement);
+
+        } else if (classOfElement == "player2") {
+            idOfElement = clickedPad.id;
+            indexOfElement = player2Dpad.indexOf(idOfElement);
+            clickListener(2, indexOfElement);
+        }
+
     });
 })
+
+function clickListener(player, index) {
+    if (theGameisPaused == 0) {
+        //up
+        if (player == 1){         
+            player1Pressed = index;
+            let endTime = performance.now()
+            player1Cache = player1Pressed;
+            player1Filled = true;
+            scoringSystem1(player1Pressed,endTime);
+        }
+   
+    
+            //right
+         else if (player == 2) {
+            player2Pressed = index;
+            let endTime = performance.now()
+            player2Cache = player2Pressed;
+            player2Filled = true;
+            scoringSystem2(player2Pressed,endTime);
+         } 
+    } else if (theGameisPaused == 1) {
+        return false
+    } 
+}
 
 
 
@@ -356,7 +405,7 @@ function scoringSystem1(restartProtocol, endtime) {
     //if player1 pressed and Ai didnt
     if (player1Filled === true && aiFilled1 === false) {
         //needs change for balance
-        changeInScore = -200
+        changeInScore = -100
         player1Score += changeInScore 
     }
     else {
@@ -377,7 +426,7 @@ function scoringSystem1(restartProtocol, endtime) {
         else {
             //balance needed
             //T2 end time use
-            changeInScore = -300
+            changeInScore = -200
             player1Score += changeInScore;
         
         }
@@ -461,21 +510,53 @@ function displayScore(scoreChange, num) {
 
 
 function winSystem(winner) {
-
+    gameFinish = 1;
+    if (winnerBug == 1) {
+        return false
+    }
     document.querySelector(".hidingPage").classList.add("hidingEverything")
 
     if (winner == 1) {
+        player1WinRate += 1;
+        winnerBug = 1;
         document.querySelector(".player1Won").style.display = "grid"
         document.querySelector(".player1 > .NumberWin").textContent=player1WinRate;
+        sliderScore.value = initialSlider;
     }
     else if (winner == 2) {
-        document.querySelector(".player2Won").style.display = "grid"
-        document.querySelector(".player2 > .NumberWin").textContent=player2WinRate;   
+
+        player2WinRate += 1;
+        winnerBug = 1;
+        document.querySelector(".player2Won").style.display = "grid";
+        document.querySelector(".player2 > .NumberWin").textContent=player2WinRate; 
+        sliderScore.value = initialSlider;  
     }
     else if (winner == 3) {
-        document.querySelector(".playerTie").style.display = "grid"
+        document.querySelector(".playerTie").style.display = "grid";
+        sliderScore.value = initialSlider;
     }
+    player1Score = 0;
+    player2Score = 0;
+    document.querySelector(".player1 > .NumberScore").textContent=player1Score;
+    document.querySelector(".player2 > .NumberScore").textContent=player2Score;
+    document.querySelector(".restart").style.display = "block";
+    restartingGame = 1;
 }
+
+let restartMenuButton = document.getElementById("restartBtn");
+
+restartMenuButton.addEventListener("click", function() {
+    pressPause = 1;
+    restartingGame = 1;
+    modal.style.display = 'block';
+    document.querySelector(".secondPage").classList.add("hidingEverything");
+    document.querySelector("#cancelBtn").innerHTML= "Main Menu";
+    theGameisPaused = 1;
+    document.querySelector(".restart").style.display = "none";
+});
+
+
+
 
 
 
@@ -484,20 +565,76 @@ let openModalBtn = document.getElementById("startGame");
 let modal = document.getElementById("modalOptions");
 let gameKeyValue = 1;
 
+
+
 openModalBtn.addEventListener("click", function() {
   modal.style.display = 'block';
 });
 
+
+let openModalBtn2 = document.getElementById("howToPlay");
+let modal2 = document.getElementById("modalHow");
+
+openModalBtn2.addEventListener("click", function() {
+  modal2.style.display = 'block';
+});
+
+document.querySelector(".xImg2").addEventListener('click', function() {
+    modal2.style.display = 'none';
+});
+  
+
+
+
+let openMenuButton = document.getElementById("pauseBtn");
+openMenuButton.addEventListener("click", function() {
+    pressPause = 1;
+    modal.style.display = 'block';
+    document.querySelector(".secondPage").classList.add("hidingEverything");
+    document.querySelector("#cancelBtn").innerHTML= "Main Menu";
+    theGameisPaused = 1
+});
+
+
+
 document.querySelector(".xImg").addEventListener('click', function() {
   modal.style.display = 'none';
+  if (restartingGame == 1) {
+    console.log("x")
+    document.querySelector(".restart").style.display = "block"
+  }
+  if (pressPause == 1) {
+    document.querySelector(".secondPage").classList.remove("hidingEverything");
+    theGameisPaused = 0;
+    pressPause = 0;
+  }
 });
 
 
 document.querySelector("#cancelBtn").addEventListener('click', function() {
   modal.style.display = 'none';
+  if (pressPause == 1) {
+    gameFinish = 1;
+    theGameisPaused = 1;
+    pressPause = 0;
+    player1WinRate = 0;
+    player2WinRate = 0;
+
+    document.querySelector(".player1 > .NumberWin").textContent=player1WinRate; 
+    document.querySelector(".player2 > .NumberWin").textContent=player2WinRate; 
+
+
+    document.querySelector(".player1Won").style.display = "none";
+    document.querySelector(".player2Won").style.display = "none";
+    document.querySelector(".playerTie").style.display = "none";
+    document.querySelector(".restart").style.display = "none";
+
+    document.querySelector(".secondPage").classList.add("hidingEverything");
+    document.querySelector(".hidingPage").classList.add("hidingEverything");
+    document.querySelector(".firstPage").classList.add("hidingEverything");
+    document.querySelector(".firstPage").classList.remove("hidingEverything");
+}
 });
-
-
 
 
 
@@ -510,10 +647,10 @@ let player1Icon = document.querySelectorAll('.icon0')
 player1Icon.forEach(function(ic) {
   ic.addEventListener("click", function(){
     player1Icon.forEach(function(e){
-      e.classList.remove("selected")
+      e.classList.remove("selected");
     })
-    ic.classList.add("selected")
-    defaultIcone1toChange.src = ic.src
+    ic.classList.add("selected");
+    keyValueSrc1 = ic.src;
   })
 })
 
@@ -525,26 +662,63 @@ player2Icon.forEach(function(ic) {
       e.classList.remove("selected")
     })
     ic.classList.add("selected")
-    defaultIcone2toChange.src  = ic.src
+    keyValueSrc2 = ic.src
   })
 })
 
 
 document.getElementById('submitBtn').addEventListener('click', function() {
   gameKeyValue = 1;
+
+  //reset stopwatch and ai loop
   gameFinish = 1;
+  restartingGame = 0;
+
+  //reset score
+  player1Score = 0;
+  player2Score = 0;
+  document.querySelector(".player1 > .NumberScore").textContent=player1Score;
+  document.querySelector(".player2 > .NumberScore").textContent=player2Score;
+
+  //reset time display
+  timeRemaining = "000";
+  document.querySelector(".timeRemaining").textContent=timeRemaining + "s";
+  modal.style.display = 'none';
+  //reset countdown
   countdownForGame = 3;
-  modal.style.display = 'none'
+  //show countdown display
+  document.querySelector(".numDown").textContent=countdownForGame;
+  document.querySelector(".countdown").style.display = "block";
+  document.querySelector(".numDown").style.display = "block";
+  
+  //reset slider value
+  sliderScore.value = initialSlider
+
+
+  //chooses new mode, dif, time
   gameModePicked = document.querySelector("#form1").value;
   DifficultyOfGame = document.querySelector("#form2").value;
   timeForGame = document.querySelector("#form3").value;
-
   speedOfGame = optionsForDif[DifficultyOfGame - 1];
   timeRemaining = optionsForTime[timeForGame - 1];
+  //changes icon based on src that was clicked "ic"
+  defaultIcone1toChange.src = keyValueSrc1;
+  defaultIcone2toChange.src = keyValueSrc2 ;
+
+
+  //hides winning result from previous game
+  document.querySelector(".player1Won").style.display = "none"
+  document.querySelector(".player2Won").style.display = "none"
+  document.querySelector(".playerTie").style.display = "none"
+  document.querySelector(".restart").style.display = "none";
+
+  //adds display none to all except second page
   document.querySelector(".secondPage").classList.add("hidingEverything");
+  document.querySelector(".hidingPage").classList.add("hidingEverything");
   document.querySelector(".firstPage").classList.add("hidingEverything");
   document.querySelector(".secondPage").classList.remove("hidingEverything");
-  //waits until the page loads and some time to start ai randomly pressing
+  
+  //begins process to start game
   displaySecondPage();
 });
 
@@ -590,7 +764,8 @@ function newGame() {
     else{
         document.querySelector(".hidingPage").classList.remove("hidingEverything");
         theGameisPaused = 0;
-        gameFinish = 0
+        gameFinish = 0;
+        winnerBug = 0;
         setTimeout(function() {untoItself()
             stopWatch()
         }, loadingTime);
@@ -599,25 +774,8 @@ function newGame() {
 
 
 
-let openMenuButton = document.getElementById("pauseBtn");
-openMenuButton.addEventListener("click", function() {
-    modal.style.display = 'block';
-    document.querySelector(".secondPage").classList.add("hidingEverything");
-    theGameisPaused = 1
-});
 
-document.querySelector(".xImg").addEventListener('click', function() {
-    modal.style.display = 'none';
-    document.querySelector(".secondPage").classList.remove("hidingEverything");
-    theGameisPaused = 0
-  });
-  
-  
-  document.querySelector("#cancelBtn").addEventListener('click', function() {
-    modal.style.display = 'none';
-    document.querySelector(".secondPage").classList.remove("hidingEverything");
-    theGameisPaused = 0
-  });
+
   
 
 
@@ -700,8 +858,45 @@ document.querySelector(".xImg").addEventListener('click', function() {
 // Display the results in the #giphy-results div provided in the html
 // Each new search should replace the previous search results
 // CSS Bonus: Use flex or grid properties to display the results in a responsive, clean layout
-let player1mood = "joy"
+
+
+const moodsObject = {
+    "ecstatic": ["Bliss", "Super", "Delight", "Ecstasy", "Jubilation", "Exuberance", "Rapture", "Glee", "Thrill", "Radiance", "Enchantment", "Serenity", "Uplifted", "Elation", "Hilarity", "Zest", "Contentment", "Vivacity", "Joviality", "Euphoric"],
+
+    "happy": ["Cheerful", "Pleasant", "Satisfied", "Content", "Joyful", "Merry", "Delighted", "Amiable", "Pleased", "Upbeat", "Grateful", "Lighthearted", "Gleeful", "Jolly", "Optimistic", "Radiant", "Smiling", "Sunny", "Carefree", "Serene"],
+
+    "angry": ["Rage", "Fury", "Wrath", "Outrage", "Indignation", "Resentment", "Hate", "Ire", "Hostility", "Frustration", "Vengeance", "Enraged", "Murderous", "Seething", "Livid", "Furious", "Raging", "Scream", "Infuriated", "Pain"],
+
+    "sad": ["Somber", "Melancholy", "Gloomy", "Sorrowful", "Blue", "Downcast", "Mournful", "Wistful", "Pensive", "Disheartened", "Dejected", "Forlorn", "Weary", "Crestfallen", "Longing", "Dismal", "Despondent", "funeral", "Lamenting", "Reflective"],
+
+    "distraught": ["Defeated", "Wounded", "Weakened", "Frail", "Vulnerable", "Suffering", "Struggling", "Desperate", "Dismayed", "Crippled", "Deteriorating", "Anguished", "Agonized", "Tormented", "Devastated", "Forsaken", "Desolate", "Doomed", "Broken", "thanosCry"]
+}
+
+
+let player1mood = "joy";
+let user1Search = player1mood;
+let theGifContainer1 = document.querySelector("#giphy-results1")
+
+
+
+
+
+
+let player2mood = "angry";
+let user2Search = player2mood;
+let theGifContainer2 = document.querySelector("#giphy-results2")
 const apiKey = "nTUDdRhRKilnCuvVYEMM8I205ihPlZ9t";
+
+
+
+
+
+
+
+
+
+
+
 
 async function giphySearch(e) {
 
@@ -709,15 +904,18 @@ async function giphySearch(e) {
   e.preventDefault();
   // get the user input from the form
 //   let userSearch = document.querySelector("#gifreaction input[name='reaction']").value;
-    let userSearch = player1mood
   // make an API call using fetch() - include your API key and the user's search term (template strings are your friend)
-  const apiURl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${userSearch}`
-  const response = await fetch(apiURl)
 
+  let api1URl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${user1Search}`
+  let response1 = await fetch(api1URl)
+
+  let api2URl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${user2Search}`
+  let response2 = await fetch(api2URl)
 
 
   // convert your response data into .json()
-const data = await response.json();
+let data1 = await response1.json();
+let data2 = await response2.json();
 
   // print your data to the console to see its format, dont forget to delete later
 
@@ -725,10 +923,125 @@ const data = await response.json();
 // document.querySelector("#giphy-results").innerHTML="";
   // use a loop to create and append each image to the dom
 
-const imageURL = (data.data)[0].images.fixed_width.url;
-const newImageTag = document.createElement("img");
-newImageTag.setAttribute("src", imageURL);
-document.querySelector("#giphy-results").appendChild(newImageTag);
+let imageURL1 = (data1.data)[0].images.fixed_width.url;
+let newImageTag1 = document.createElement("img");
+newImageTag1.setAttribute("src", imageURL1);
+document.querySelector("#giphy-results1").appendChild(newImageTag1);
+
+let imageURL2 = (data1.data)[0].images.fixed_width.url;
+let newImageTag2 = document.createElement("img");
+newImageTag2.setAttribute("src", imageURL2);
+document.querySelector("#giphy-results2").appendChild(newImageTag2);
+
+
+
+  async function moodRegulation() {
+
+    if (parseInt(sliderScore.value) == parseInt(initialSlider) && parseInt(sliderScore.value) > parseInt(initialSlider) * (95/100)  && parseInt(sliderScore.value) < parseInt(initialSlider) * (105/100)) 
+    //in middle both angry
+    {
+        player1mood = moodsObject.angry[Math.floor(Math.random()*20)]
+        user1Search = player1mood
+        player2mood = moodsObject.angry[Math.floor(Math.random()*20)]
+        user2Search = player2mood
+
+        console.log(user1Search)
+        console.log(user2Search)
+
+    //player1 winning by large margin, player2 losing by large margin
+    } else if (parseInt(sliderScore.value) > parseInt(initialSlider) * (150/100)) {
+        player1mood = moodsObject.ecstatic[Math.floor(Math.random()*20)]
+        user1Search = player1mood
+
+        player2mood = moodsObject.distraught[Math.floor(Math.random()*20)]
+        user2Search = player2mood 
+        
+        console.log(user1Search)
+        console.log(user2Search)
+
+    //player2 winning by large margin, player1 losing by large margin
+    } else if (parseInt(sliderScore.value) < parseInt(initialSlider) * (50/100)) {
+        player2mood = moodsObject.ecstatic[Math.floor(Math.random()*20)]
+        user2Search = player2mood
+        player1mood = moodsObject.distraught[Math.floor(Math.random()*20)]
+        user1Search = player1mood 
+        
+        console.log(user1Search)
+        console.log(user2Search)
+        
+
+    //player1 winning slightly
+    } else if (parseInt(sliderScore.value) > parseInt(initialSlider) * (105/100)) {
+        player1mood = moodsObject.happy[Math.floor(Math.random()*20)]
+        user1Search = player1mood
+        player2mood = moodsObject.sad[Math.floor(Math.random()*20)]
+        user2Search = player2mood
+
+        console.log(user1Search)
+        console.log(user2Search)
+
+    //player2 winning slightly
+    } else if(parseInt(sliderScore.value) < parseInt(initialSlider) * (95/100)) {
+        
+        player2mood = moodsObject.happy[Math.floor(Math.random()*20)]
+        user2Search = player2mood
+        player1mood = moodsObject.sad[Math.floor(Math.random()*20)]
+        user1Search = player1mood
+        
+        console.log(user1Search)
+        console.log(user2Search)
+
+    } else {
+        player2mood = "joy"
+        user2Search = player2mood
+        player1mood = "joy"
+        user1Search = player1mood
+
+        console.log(user1Search)
+        console.log(user2Search)
+    }
+
+
+
+
+
+    api1URl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${user1Search}`
+    response1 = await fetch(api1URl)
+    data1 = await response1.json();
+    imageURL1 = (data1.data)[0].images.fixed_width.url;
+    newImageTag1 = document.createElement("img");
+    newImageTag1.setAttribute("src", imageURL1);
+    while (theGifContainer1.firstChild) {
+        theGifContainer1.removeChild(theGifContainer1.firstChild);
+      }      
+    theGifContainer1.appendChild(newImageTag1);
+
+
+
+
+    api2URl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${user2Search}`
+    response2 = await fetch(api2URl)
+    data2 = await response2.json();
+    console.log(data2)
+    imageURL2 = (data2.data)[0].images.fixed_width.url;
+    newImageTag2 = document.createElement("img");
+    newImageTag2.setAttribute("src", imageURL2);
+    while (theGifContainer2.firstChild) {
+        theGifContainer2.removeChild(theGifContainer2.firstChild);
+      }      
+    theGifContainer2.appendChild(newImageTag2);
+
+
+
+
+
+    setTimeout(moodRegulation, 5000)
+}
+
+
+setTimeout(moodRegulation, 5000)
+
+
 
 }
 // dont forget your event listener

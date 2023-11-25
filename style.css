@@ -6,6 +6,65 @@
 
 
 /* for first page */
+.startDisplay {
+
+}
+
+
+  .firstColumn,
+  .secondColumn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+  }
+  
+  .firstColumn {
+    background-color: rgb(12, 12, 133);
+    left: 0;
+  }
+  
+  .secondColumn {
+    background-color: #7f0909; 
+    right: 0;
+  }
+
+  .mainBehind {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+  }
+
+
+
+  .background-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  } 
+
+  .background-src {
+    /* width:100%;
+    height:100%; */
+  }
+
+
+  .becomeMonkey {
+    position: relative;
+    top: 10px;
+    left: -70px;
+    color: rgb(4, 4, 80);
+  }
+
+  .becomeZen {
+    position: relative;
+    top: 10px;
+    left: -10px;
+    color:rgb(235, 177, 235);
+  }
+
 .actualInteraction {
     display: flex;
     justify-content: center;
@@ -18,6 +77,7 @@
 
 .actualInteraction > h1 {
     font-size: 60px;
+    z-index: 4;
 }
 
 .beginningChoices {
@@ -27,9 +87,20 @@
     height: 100vh;
     flex-direction: column;
     position: relative;
-    top: -10%   
+    top: -10%;   
+    
 }
 
+.beginningChoices > a {
+    color: green;
+    background-color: #f1efef;
+    text-align: center;
+}
+
+
+.beginningChoices > a:Hover {
+    background-color: aquamarine;
+}
 
 .startBtn {
     text-decoration: none;
@@ -57,6 +128,11 @@
     background-color: rgb(117, 243, 201,0.5);
 }
 
+.startOptions > * {
+    background-color: #fefefe;
+    border: 3px solid #888;
+    height: 100%;
+}
 
 .modal-content {
     display: grid;
@@ -85,14 +161,82 @@
     cursor: pointer;
 }
 
+.secondOption {
+    /* display: none; */
+    position: fixed;
+    z-index: 18;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    padding: 40px;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgb(117, 243, 201,0.5);
+}
 
-
-
-.startOptions > * {
+.secondOption > * {
     background-color: #fefefe;
     border: 3px solid #888;
     height: 100%;
 }
+
+
+
+.modal-content2 {
+    background-color: #fff;
+    width: 450px;
+    max-width: 100%;
+    margin: 60px auto;
+    padding:10px;
+}
+
+.modal-content2 > p {
+    position: relative;
+    top:-10%
+}
+
+.xDiv2 {
+    position: relative;
+    /* padding: 2em; */
+    left: 70%;
+    top: 13%;
+    transform: translateX(-50%);
+    left: 135%;
+    top: -0.5%;
+}
+
+.xImg2 {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+
+}
+
+
+
+.instruction {
+    position: relative;
+    top: -15%;
+    left: -8%;
+    width: 275px;
+    height: 190px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.whiteBoard {
+    width: 100%;
+    height: 100%;
+}
+
+
+
 
 .choosingIcon1,
 .choosingIcon2 {
@@ -137,13 +281,11 @@
 /*  */
 
 
-/* 
+
 .timeRemaining {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-} */
+    color:aliceblue;
+    font-size: 30px;
+}
 
 
 
@@ -163,8 +305,14 @@
 .playerImg {
     max-width: 100%;
     max-height: 100%;
+    border-radius: 10px;
     /* fills the container .icon */
 }
+
+
+
+
+
 
 
 /* sets up Dpad for all */
@@ -195,13 +343,12 @@
 
 .pad {
     border-radius: 5px;
-    
 }
 
 .pad.Up {
     grid-column-start: 2;
     grid-row-start: 1;
-
+    
 }
 
 .pad.Right {
@@ -223,6 +370,10 @@
     grid-column-start: 2;
     grid-row-start: 2;
 }
+
+
+
+
 
 
 /* pad photos and design */
@@ -292,18 +443,23 @@
     }
 }
 
+
+
+
 .reaction {
-    width: 15%;
-    height: 15%;
+    width: 120px;
+    height: 100px;
 }
 
 
-#giphy-results {
+#giphy-results1,
+#giphy-results2{
     width: 100%;
     height: 100%;
 }
 
-#giphy-results img {
+#giphy-results1 img,
+#giphy-results2 img{
     width: 100%;
     height: 100%;
 }
@@ -374,6 +530,17 @@ input[type=range][orient=vertical] {
 
 
 
+/* Hide the thumb (circle) */
+/* input[type="range"]::-webkit-slider-thumb {
+    display: none;
+  } */
+  
+  /* Hide the middle circle/track */
+  /* input[type="range"]::-webkit-slider-runnable-track {
+    background: transparent;
+    border: none;
+  } */
+
 
 .pause {
 
@@ -397,14 +564,28 @@ input[type=range][orient=vertical] {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     text-align: center;
-}
+    background-color:#fefefe;
+    padding:5px;
+    border: 2px solid wheat;
+    position: relative;
+    top: -20px;
+    border-radius: 8px;
+} 
+
 
 .details.player2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
     text-align: center;
+    background-color:#fefefe;
+    padding:5px;
+    border: 2px solid wheat;
+    position: relative;
+    top: -20px;
+    border-radius: 8px;
 } 
+
 
 
 /* if statements in js */
@@ -461,7 +642,7 @@ input[type=range][orient=vertical] {
 
 .player1Won {
     position: fixed;
-    z-index: 7;
+    z-index: 8;
     left: 0;
     top: 0;
     width: 100%;
@@ -533,7 +714,7 @@ input[type=range][orient=vertical] {
 
 .playerTie {
     position: fixed;
-    z-index: 7;
+    z-index: 6;
     left: 0;
     top: 0;
     width: 100%;
@@ -581,3 +762,25 @@ input[type=range][orient=vertical] {
     font-size:18px;
     margin: 0;
 }
+
+
+.restart {
+    display: none;
+    z-index: 300;
+    position: fixed;
+    margin: 0;
+    position: absolute;
+    top: 13%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#restartBtn {
+    z-index: 100;
+}
+
+
+
+/* last changes */
+

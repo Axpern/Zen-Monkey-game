@@ -15,13 +15,21 @@
     <section class="firstPage">
 
     <section class="startDisplay">
-        <div class="firstColumn">moo</div>
-        <div class="secondColumn">woo</div>
+        <div class="firstColumn">    
+            <video class="background-video" autoplay loop muted>
+                <source src="video\zenBack.mp4" type="video/mp4" class="background-src">
+            </video>
+        </div>
+        <div class="secondColumn">            
+            <video class="background-video" autoplay loop muted>
+            <source src="video\monkeyBack.mp4" type="video/mp4" class="background-src">
+            </video>
+    </div>
     </section>
 
     <section class="actualInteraction">
 
-        <h1>Monkey or Zen?</h1>
+        <h1><span class="becomeMonkey">Monkey</span><span class="becomeZen">Zen?</span></h1>
         <div class="beginningChoices">
             <a href="#" class="startBtn" id="startGame">Start</a>
             <a href="#" class="startBtn" id="howToPlay">how to play</a>
@@ -69,7 +77,16 @@
         <button id="submitBtn" class="menuBtn">Play!</button>
     </div>
     </section>
-</section>
+
+    <section class="secondOption" id="modalHow">    
+        <div class="modal-content2">
+        <div class="xDiv2"><img src="imgs/Red-x.png" class="xImg2"/></div>
+        <div class="instruction"><img src="imgs/howToPlay.PNG" class="whiteBoard"/></div>
+        <p>The computer will randomly press on one of the four directions. As can be seen, the pressed direction will light up and the players have to press in same directions as quickly as possible.</br> player 1 controls: ASDW</br>player 2 controls: ←↓→↑</br>A slider will show the progress of player 1. The closer player 1 is to winning, the higher the slider will be. The closer player 2 is to winning, the slower the slider will be. The game will end when the slider reaches a maximum or minimum or when the time runs out</p>
+        </div>
+    </section>
+
+
 <div class="secondPage">
     <header> 
         <!-- icons in a container -->
@@ -88,6 +105,11 @@
 
     <main>
         <div class="hidingPage hidingEverything">
+            <div class="mainBehind">    
+                <video class="background-video" autoplay loop muted>
+                    <source src="video\particleBack.mp4" type="video/mp4" class="background-src">
+                </video>
+            </div>
         <section class="aiCommand">
             <!-- the buttons that Ai will randomnly activate and players must follow -->
             <div class="Dpad Ai">
@@ -103,10 +125,10 @@
         <section class="playerReactions">
             <!-- gifs that will play depending on the players dis/advantageous situation -->
             <div class="reaction player1">
-                  <div id="giphy-results"></div>
+                  <div id="giphy-results1"></div>
             </div>
             <div class="reaction player2">
-                  <div id="giphy-results"></div>
+                  <div id="giphy-results2"></div>
             </div>
 
         </section>
@@ -114,18 +136,18 @@
         <section class="playerDpads">
             <!-- Both players buttons that must match to the ai, quicker matching wins -->
             <div class="Dpad player1">
-                <div class="pad Up"><img src="imgs/arrow.png" class="arrowImg Up" id="player1U"/></div>
-                <div class="pad Right"><img src="imgs/arrow.png" class="arrowImg Right" id="player1R"/></div>
-                <div class="pad Down"><img src="imgs/arrow.png" class="arrowImg Down" id="player1D"/></div>
-                <div class="pad Left"><img src="imgs/arrow.png" class="arrowImg Left" id="player1L"/></div>
+                <div class="pad Up"><img src="imgs/arrow.png" class=" player1 arrowImg Up" id="player1U"/></div>
+                <div class="pad Right"><img src="imgs/arrow.png" class="player1 arrowImg Right" id="player1R"/></div>
+                <div class="pad Down"><img src="imgs/arrow.png" class="player1 arrowImg Down" id="player1D"/></div>
+                <div class="pad Left"><img src="imgs/arrow.png" class="player1 arrowImg Left" id="player1L"/></div>
                 <div class="Middle"><img src="imgs/kisspng-circle-shape-computer-icons-5aec596b087b34.9780264515254388270348.jpg" class="arrowImg Middle" id="player1M"/></div>
             </div>  
 
             <div class="Dpad player2">
-                <div class="pad Up"><img src="imgs/arrow.png" class="arrowImg Up" id="player2U"/></div>
-                <div class="pad Right"><img src="imgs/arrow.png" class="arrowImg Right" id="player2R"/></div>
-                <div class="pad Down"><img src="imgs/arrow.png" class="arrowImg Down" id="player2D"/></div>
-                <div class="pad Left"><img src="imgs/arrow.png" class="arrowImg Left" id="player2L"/></div>
+                <div class="pad Up"><img src="imgs/arrow.png" class="player2 arrowImg Up" id="player2U"/></div>
+                <div class="pad Right"><img src="imgs/arrow.png" class="player2 arrowImg Right" id="player2R"/></div>
+                <div class="pad Down"><img src="imgs/arrow.png" class="player2 arrowImg Down" id="player2D"/></div>
+                <div class="pad Left"><img src="imgs/arrow.png" class="player2 arrowImg Left" id="player2L"/></div>
                 <div class="Middle"><img src="imgs/kisspng-circle-shape-computer-icons-5aec596b087b34.9780264515254388270348.jpg" class="arrowImg Middle" id="player2M"/></div>
             </div>
 
@@ -166,6 +188,7 @@
             <!-- shows players who is winning and progress. Also can press the pause button -->
             <div class="SlidingScore">
                 <input type="range" min="0" max="10000" step="50" class="slider" id="myRange" orient="vertical"> 
+                <div class="slider-bar"></div>
             </div>
 
             <div class="pause">
@@ -203,8 +226,14 @@
 
     </main>
 
+
+
 </div>
 
+
+    <div class="restart">
+        <button class="mainMenu" id="restartBtn">Restart!</button>
+    </div>
 
 
 
