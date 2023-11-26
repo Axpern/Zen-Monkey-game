@@ -11,7 +11,7 @@ let restartingGame = 0;
 let winnerBug = 0;
 
 let optionsForMode = [0]
-let optionsForDif = [800, 600, 400]
+let optionsForDif = [600, 500, 400]
 let optionsForTime = [60, 120, 240]
 
 
@@ -97,6 +97,28 @@ let startTime = 0;
 let classOfElement;
 let idOfElement;
 let indexOfElement;
+
+
+
+
+
+
+  let audio = document.getElementById('background-music');
+
+//not used
+  function toggleBackgroundMusic() {
+    if (audio.paused) {
+      audio.play();}
+    //  else {
+    //   audio.pause();
+    // }
+  }
+
+
+
+
+
+
 
 
 
@@ -547,7 +569,6 @@ let restartMenuButton = document.getElementById("restartBtn");
 
 restartMenuButton.addEventListener("click", function() {
     pressPause = 1;
-    restartingGame = 1;
     modal.style.display = 'block';
     document.querySelector(".secondPage").classList.add("hidingEverything");
     document.querySelector("#cancelBtn").innerHTML= "Main Menu";
@@ -564,11 +585,16 @@ document.querySelector(".secondPage").classList.add("hidingEverything");
 let openModalBtn = document.getElementById("startGame");
 let modal = document.getElementById("modalOptions");
 let gameKeyValue = 1;
-
+let inTheStart = 0;
 
 
 openModalBtn.addEventListener("click", function() {
+    inTheStart = 1;
   modal.style.display = 'block';
+  document.querySelector("#cancelBtn").innerHTML= "Close";
+  document.querySelector(".becomeMonkey").style.display = "none";
+  document.querySelector(".becomeZen").style.display = "none";
+  toggleBackgroundMusic();
 });
 
 
@@ -576,11 +602,17 @@ let openModalBtn2 = document.getElementById("howToPlay");
 let modal2 = document.getElementById("modalHow");
 
 openModalBtn2.addEventListener("click", function() {
+    document.querySelector(".becomeMonkey").style.display = "none";
+    document.querySelector(".becomeZen").style.display = "none";
   modal2.style.display = 'block';
+  toggleBackgroundMusic();
 });
 
 document.querySelector(".xImg2").addEventListener('click', function() {
     modal2.style.display = 'none';
+    document.querySelector(".becomeMonkey").style.display = "inline";
+    document.querySelector(".becomeZen").style.display = "inline";
+    
 });
   
 
@@ -593,16 +625,21 @@ openMenuButton.addEventListener("click", function() {
     document.querySelector(".secondPage").classList.add("hidingEverything");
     document.querySelector("#cancelBtn").innerHTML= "Main Menu";
     theGameisPaused = 1
+
 });
 
 
 
 document.querySelector(".xImg").addEventListener('click', function() {
   modal.style.display = 'none';
+    if (inTheStart == 1) {
+        document.querySelector(".becomeMonkey").style.display = "inline";
+        document.querySelector(".becomeZen").style.display = "inline";
+    }
+
   if (restartingGame == 1) {
-    console.log("x")
-    document.querySelector(".restart").style.display = "block"
-  }
+    document.querySelector(".restart").style.display = "block";
+  } 
   if (pressPause == 1) {
     document.querySelector(".secondPage").classList.remove("hidingEverything");
     theGameisPaused = 0;
@@ -612,6 +649,11 @@ document.querySelector(".xImg").addEventListener('click', function() {
 
 
 document.querySelector("#cancelBtn").addEventListener('click', function() {
+    if (inTheStart == 1) {
+        document.querySelector(".becomeMonkey").style.display = "inline";
+        document.querySelector(".becomeZen").style.display = "inline";
+    }
+
   modal.style.display = 'none';
   if (pressPause == 1) {
     gameFinish = 1;
@@ -619,6 +661,7 @@ document.querySelector("#cancelBtn").addEventListener('click', function() {
     pressPause = 0;
     player1WinRate = 0;
     player2WinRate = 0;
+    restartingGame = 0;
 
     document.querySelector(".player1 > .NumberWin").textContent=player1WinRate; 
     document.querySelector(".player2 > .NumberWin").textContent=player2WinRate; 
@@ -869,7 +912,7 @@ const moodsObject = {
 
     "sad": ["Somber", "Melancholy", "Gloomy", "Sorrowful", "Blue", "Downcast", "Mournful", "Wistful", "Pensive", "Disheartened", "Dejected", "Forlorn", "Weary", "Crestfallen", "Longing", "Dismal", "Despondent", "funeral", "Lamenting", "Reflective"],
 
-    "distraught": ["Defeated", "Wounded", "Weakened", "Frail", "Vulnerable", "Suffering", "Struggling", "Desperate", "Dismayed", "Crippled", "Deteriorating", "Anguished", "Agonized", "Tormented", "Devastated", "Forsaken", "Desolate", "Doomed", "Broken", "thanosCry"]
+    "distraught": ["Defeated", "Wounded", "Weakened", "Frail", "Vulnerable", "Suffering", "Struggling", "Desperate", "Dismayed", "Crippled", "Deteriorating", "Anguished", "Agonized", "Tormented", "Devastated", "Forsaken", "Desolate", "Doomed", "Broken", "Depressed"]
 }
 
 
@@ -945,8 +988,6 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         player2mood = moodsObject.angry[Math.floor(Math.random()*20)]
         user2Search = player2mood
 
-        console.log(user1Search)
-        console.log(user2Search)
 
     //player1 winning by large margin, player2 losing by large margin
     } else if (parseInt(sliderScore.value) > parseInt(initialSlider) * (150/100)) {
@@ -956,8 +997,7 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         player2mood = moodsObject.distraught[Math.floor(Math.random()*20)]
         user2Search = player2mood 
         
-        console.log(user1Search)
-        console.log(user2Search)
+
 
     //player2 winning by large margin, player1 losing by large margin
     } else if (parseInt(sliderScore.value) < parseInt(initialSlider) * (50/100)) {
@@ -965,9 +1005,8 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         user2Search = player2mood
         player1mood = moodsObject.distraught[Math.floor(Math.random()*20)]
         user1Search = player1mood 
-        
-        console.log(user1Search)
-        console.log(user2Search)
+
+
         
 
     //player1 winning slightly
@@ -977,8 +1016,7 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         player2mood = moodsObject.sad[Math.floor(Math.random()*20)]
         user2Search = player2mood
 
-        console.log(user1Search)
-        console.log(user2Search)
+
 
     //player2 winning slightly
     } else if(parseInt(sliderScore.value) < parseInt(initialSlider) * (95/100)) {
@@ -987,9 +1025,7 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         user2Search = player2mood
         player1mood = moodsObject.sad[Math.floor(Math.random()*20)]
         user1Search = player1mood
-        
-        console.log(user1Search)
-        console.log(user2Search)
+
 
     } else {
         player2mood = "joy"
@@ -997,8 +1033,6 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
         player1mood = "joy"
         user1Search = player1mood
 
-        console.log(user1Search)
-        console.log(user2Search)
     }
 
 
@@ -1022,7 +1056,7 @@ document.querySelector("#giphy-results2").appendChild(newImageTag2);
     api2URl = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${user2Search}`
     response2 = await fetch(api2URl)
     data2 = await response2.json();
-    console.log(data2)
+
     imageURL2 = (data2.data)[0].images.fixed_width.url;
     newImageTag2 = document.createElement("img");
     newImageTag2.setAttribute("src", imageURL2);

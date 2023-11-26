@@ -121,11 +121,16 @@
     height: 100%;
     overflow: auto;
     display: none;
-    padding: 40px;
     justify-content: center;
     padding-left: 50px;
     padding-right: 50px;
     background-color: rgb(117, 243, 201,0.5);
+}
+
+@media (max-width:800px) {
+    .startOptions  {
+        /* height: 400px; */
+    }
 }
 
 .startOptions > * {
@@ -345,6 +350,12 @@
     border-radius: 5px;
 }
 
+@media (max-width:850px) {
+    .pad{
+        width: 60px;
+    }
+}
+
 .pad.Up {
     grid-column-start: 2;
     grid-row-start: 1;
@@ -355,6 +366,33 @@
     grid-column-start: 3;
     grid-row-start: 2;
 }
+
+@media (max-width:850px) {
+    .pad.Right{
+        margin-left: 20px;
+    }
+}
+
+@media (max-width:850px) {
+    .pad.Left{
+        margin-right: 20px;
+    }
+}
+
+@media (max-width:650px) {
+    .pad.Right{
+        margin-left: 40px;
+    }
+}
+
+@media (max-width:650px) {
+    .pad.Left{
+        margin-right: 40px;
+    }
+}
+
+
+
 
 .pad.Down {
     grid-column-start: 2;
@@ -369,6 +407,7 @@
 .Middle {
     grid-column-start: 2;
     grid-row-start: 2;
+    width: 100%;
 }
 
 
@@ -443,6 +482,12 @@
     }
 }
 
+@media (max-width:650px) {
+    .playerReactions {
+        width:80px;
+        height:50px;
+    }
+}
 
 
 
@@ -515,7 +560,6 @@
 }
 @media (max-width:700px) {
     .bottomInputs  {
-        top: -350px;
         
     }
 }
@@ -573,6 +617,7 @@ input[type=range][orient=vertical] {
 } 
 
 
+
 .details.player2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -585,6 +630,31 @@ input[type=range][orient=vertical] {
     top: -20px;
     border-radius: 8px;
 } 
+
+
+@media (max-width:870px) {
+    .details.player1,
+    .details.player2 {
+        top: 20px;
+    }
+}
+
+
+
+
+@media (max-width:800px) {
+    .details.player1,
+    .details.player2 {
+        /* top: 80px; */
+    }
+}
+
+@media (max-width:650px) {
+    .details.player1,
+    .details.player2 {
+        /* top: 150px; */
+    }
+}
 
 
 
